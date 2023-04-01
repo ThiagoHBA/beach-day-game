@@ -18,11 +18,7 @@ struct MainView: View {
                 case .carousel:
                     CarouselView().transition(.move(edge: .trailing))
                 case .findItem:
-                    Button {
-                        router.nextInteraction()
-                    } label: {
-                        Color.red
-                    }
+                    FindItemView()
                 case .sunscreen:
                     Button {
                         router.nextInteraction()
@@ -31,6 +27,7 @@ struct MainView: View {
                     }
                 }
         }
+        .preferredColorScheme(.light)
         .animation(.spring(), value: router.currentInteraction)
         .environmentObject(router)
     }
