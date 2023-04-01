@@ -8,8 +8,12 @@
 import SwiftUI
 
 struct FirstView: View {
+    @EnvironmentObject private var carouselController: CarouselController
+    
     var body: some View {
-        Text("CarouselFirstView")
+        Button("CarouselFirstView") {
+            carouselController.nextPage()
+        }
     }
 }
 

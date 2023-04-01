@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PlayView: View {
+    @EnvironmentObject var router: Router
     
     var body: some View {
         ZStack {
@@ -19,7 +20,7 @@ struct PlayView: View {
                     .font(.body)
                     .padding([.bottom], 16)
                 Button {
-                    
+                    router.nextInteraction()
                 } label: {
                     Text("Play")
                         .frame(width: 100, height: 50)
