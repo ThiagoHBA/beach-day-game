@@ -9,6 +9,7 @@ import SwiftUI
 
 struct PlayView: View {
     @EnvironmentObject var router: Router
+    @State var disableButton = false
     
     var body: some View {
         ZStack {
@@ -21,13 +22,14 @@ struct PlayView: View {
                     .padding([.bottom], 16)
                 Button {
                     router.nextInteraction()
+                    disableButton.toggle()
                 } label: {
                     Text("Play")
                         .frame(width: 100, height: 50)
                         .background(.black)
                         .foregroundColor(.white)
                         .cornerRadius(12)
-                }
+                }.disabled(disableButton)
             }
         }
     }
