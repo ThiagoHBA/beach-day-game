@@ -9,7 +9,7 @@ import SwiftUI
 
 struct FindItemView: View {
     @EnvironmentObject private var router: Router
-    @State private var findableItems: [RoomItem] = RoomItem.generateItems()
+    @State private var findableItems: [RoomItem] = RoomItem.generateFindableItems()
     
     var body: some View {
         GeometryReader { geo in
@@ -30,13 +30,10 @@ struct FindItemView: View {
                 ForEach(findableItems, id: \.self) { item in
                     FindableItem(item: item)
                         .opacity(item.visible ? 1 : 0.001)
-                    .onDrag {
-                        return .init(contentsOf: URL(string: item.id.uuidString))!
-                    }
-                    .position(item.roomPosition.getPosition(
-                            on: geo.frame(in: .global)
+                        .onDrag { return .init(contentsOf: URL(string: item.id.uuidString))! }
+                        .position(
+                            item.roomPosition.getPosition(on: geo.frame(in: .global))
                         )
-                    )
                 }
             }
         }.edgesIgnoringSafeArea(.all)

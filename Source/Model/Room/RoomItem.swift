@@ -34,7 +34,7 @@ enum ItemType {
 }
 
 extension RoomItem {
-    static func generateItems() -> [RoomItem] {
+    static func generateFindableItems() -> [RoomItem] {
         return [
             RoomItem(
                 type: .hat,

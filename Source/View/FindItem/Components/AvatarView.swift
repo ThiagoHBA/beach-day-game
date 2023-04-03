@@ -32,19 +32,7 @@ struct AvatarView: View {
                                 let _ = first.loadObject(ofClass: URL.self) {
                                     value, error in
                                     guard let url = value else { return }
-                                    for i in 0..<items.count {
-                                        if items[i].id.uuidString == "\(url)" &&
-                                        items[i].accessoryPosition == accessory.position {
-                                            guard let index = accessories.firstIndex(
-                                                where:{
-                                                    $0.item.id == items[i].id
-                                                }
-                                            ) else { return }
-                                            
-                                            items[i].visible.toggle()
-                                            accessories[index].item.visible.toggle()
-                                        }
-                                    }
+                                    itemDropped(with: url, on: accessory.position)
                                 }
                             }
                             return false
@@ -59,6 +47,22 @@ struct AvatarView: View {
                 )
                 accessory.item.visible = false
                 accessories.append(accessory)
+            }
+        }
+    }
+    
+    func itemDropped(with url: URL, on position: AccessoryPosition) {
+        for i in 0..<items.count {
+            if items[i].id.uuidString == "\(url)" &&
+            items[i].accessoryPosition == position {
+                guard let index = accessories.firstIndex(
+                    where:{
+                        $0.item.id == items[i].id
+                    }
+                ) else { return }
+                
+                items[i].visible.toggle()
+                accessories[index].item.visible.toggle()
             }
         }
     }
