@@ -10,14 +10,13 @@ import SwiftUI
 
 struct FindableItem: View {
     var item: RoomItem
-    var roomFrame: CGRect
     
     var body: some View {
-        Image(item.image)
+        Image(systemName: item.image)
             .resizable()
             .frame(
-                maxWidth: item.type.getRelativeFrame(parent: roomFrame).width,
-                maxHeight: item.type.getRelativeFrame(parent: roomFrame).height
+                maxWidth: item.type.getRelativeFrame.width,
+                maxHeight: item.type.getRelativeFrame.height
             )
     }
 }

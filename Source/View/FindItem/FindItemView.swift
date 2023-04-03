@@ -1,4 +1,4 @@
-//
+    //
 //  SwiftUIView.swift
 //  
 //
@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FindItemView: View {
     @EnvironmentObject private var router: Router
+    @State private var findableItems: [RoomItem] = RoomItem.generateItems()
     
     var body: some View {
         GeometryReader { geo in
@@ -20,41 +21,23 @@ struct FindItemView: View {
                         height: UIScreen.main.bounds.height
                     )
                 
-                FindableItem(
-                    item: RoomItem(
-                        type: .hat,
-                        image: "hat"
-                    ),
-                    roomFrame: geo.frame(in: .global)
-                ).position(
-                    RoomPosition.wallShelf.getPosition(
-                        on: geo.frame(in: .global)
+                AvatarView(items: $findableItems)
+                    .frame(
+                        width: geo.size.width * 0.2,
+                        height: geo.size.height * 0.6
                     )
-                )
                 
-                FindableItem(
-                    item: RoomItem(
-                        type: .sunglass,
-                        image: "sunglass"
-                    ),
-                    roomFrame: geo.frame(in: .global)
-                ).position(
-                    RoomPosition.bench.getPosition(
-                        on: geo.frame(in: .global)
+                ForEach(findableItems, id: \.self) { item in
+                    FindableItem(item: item)
+                        .opacity(item.visible ? 1 : 0.001)
+                    .onDrag {
+                        return .init(contentsOf: URL(string: item.id.uuidString))!
+                    }
+                    .position(item.roomPosition.getPosition(
+                            on: geo.frame(in: .global)
+                        )
                     )
-                )
-                
-                FindableItem(
-                    item: RoomItem(
-                        type: .uvShirt,
-                        image: "shirt"
-                    ),
-                    roomFrame: geo.frame(in: .global)
-                ).position(
-                    RoomPosition.wardrobe.getPosition(
-                        on: geo.frame(in: .global)
-                    )
-                )
+                }
             }
         }.edgesIgnoringSafeArea(.all)
     }
