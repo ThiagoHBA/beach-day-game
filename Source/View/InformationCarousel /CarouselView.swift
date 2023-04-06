@@ -10,22 +10,32 @@ import SwiftUI
 struct CarouselView: View {
     @ObservedObject private var controller = CarouselController()
     @EnvironmentObject var router: Router
+    @State private var currentIndex: Int = 0
     
     var body: some View {
-        ZStack {
-            switch controller.carouselOrder {
-                case .first:
-                    FirstView()
-                case .second:
-                    SecondView()
-                case .third:
-                    Button {
-                        controller.nextPage()
-                    } label: {
-                        Color.purple
+        VStack {
+            CarouselText(
+                text: controller.carouselOrder.textContent.texts[currentIndex]
+            )
+            .frame(height: 300)
+            .animation(.easeIn, value: currentIndex)
+            CarouselButtons(
+                nextTapped: {
+                    if currentIndex < controller.carouselOrder.textContent.texts.count - 1 {
+                        currentIndex += 1
+                        return
                     }
-            }
+                    controller.nextPage()
+                    currentIndex = 0
+                },
+                previousTapped: currentIndex == 0 ? nil : {
+                    if currentIndex > 0 {
+                        currentIndex -= 1
+                    }
+                }
+            )
         }
+        .frame(maxWidth: 900)
         .animation(.spring(), value: controller.carouselOrder)
         .onAppear { controller.didEndPages = router.nextInteraction }
         .environmentObject(controller)
