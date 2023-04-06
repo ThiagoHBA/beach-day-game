@@ -11,6 +11,7 @@ struct FindItemView: View {
     @EnvironmentObject private var router: Router
     @State private var findableItems = RoomItem.generateFindableItems()
     @State private var dummyItems = RoomItem.generateDummyItems()
+    @State private var progress: CGFloat = 0.0
     
     var body: some View {
         GeometryReader { geo in
@@ -22,13 +23,13 @@ struct FindItemView: View {
                         height: UIScreen.main.bounds.height
                     )
                 
-                AvatarView(items: $findableItems)
+                AvatarView(items: $findableItems, protectionProgress: $progress)
                     .frame(
                         width: geo.size.width * 0.2,
                         height: geo.size.height * 0.6
                     )
                 
-                ForEach(findableItems, id: \.self) { item in
+                ForEach(findableItems) { item in
                     FindableItem(item: item)
                         .opacity(item.visible ? 1 : 0.001)
                         .onDrag {
@@ -56,6 +57,10 @@ struct FindItemView: View {
                             }
                         }
                 }
+                
+                ProgressBar(progress: $progress)
+                    .frame(width: geo.size.width * 0.25, height: 32)
+                    .position(x: geo.size.width * 0.85, y: geo.size.height * 0.08)
             }
         }.edgesIgnoringSafeArea(.all)
     }

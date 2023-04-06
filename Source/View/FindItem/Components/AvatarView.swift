@@ -10,7 +10,9 @@ import SwiftUI
 
 struct AvatarView: View {
     @Binding var items: [RoomItem]
+    @Binding var protectionProgress: CGFloat
     @State var accessories: [Accessory] = []
+    @State var visibleItems = 0
     
     var body: some View {
         ZStack {
@@ -33,6 +35,8 @@ struct AvatarView: View {
                                     value, error in
                                     guard let url = value else { return }
                                     itemDropped(with: url, on: accessory.position)
+                                    visibleItems += 1
+                                    calculateProgress()
                                 }
                             }
                             return false
@@ -48,6 +52,12 @@ struct AvatarView: View {
                 accessory.item.visible = false
                 accessories.append(accessory)
             }
+        }
+    }
+    
+    func calculateProgress() {
+        withAnimation {
+            protectionProgress = CGFloat(visibleItems) / CGFloat(items.count)
         }
     }
     
