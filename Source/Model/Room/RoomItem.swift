@@ -13,6 +13,7 @@ struct RoomItem: Identifiable, Hashable {
     var isDragging: Bool = false
     let type: ItemType
     let image: String
+    let accessoryImage: String
     var roomPosition: RoomPosition
     let accessoryPosition: AccessoryPosition
 }
@@ -46,18 +47,21 @@ extension RoomItem {
             RoomItem(
                 type: .hat,
                 image: "photo.fill",
+                accessoryImage: "photo.fill.on.rectangle.fill",
                 roomPosition: .wallShelf,
                 accessoryPosition: .head
             ),
             RoomItem(
                 type: .sunglass,
                 image: "photo.fill",
+                accessoryImage: "photo.fill.on.rectangle.fill",
                 roomPosition: .bench,
                 accessoryPosition: .eyes
             ),
             RoomItem(
                 type: .uvShirt,
                 image: "photo.fill",
+                accessoryImage: "photo.fill.on.rectangle.fill",
                 roomPosition: .wardrobe,
                 accessoryPosition: .body
             )
@@ -69,12 +73,14 @@ extension RoomItem {
             RoomItem(
                 type: .guitar,
                 image: "guitars.fill",
+                accessoryImage: "photo.fill.on.rectangle.fill",
                 roomPosition: .bed,
                 accessoryPosition: .none
             ),
             RoomItem(
                 type: .shoes,
                 image: "car.2.fill",
+                accessoryImage: "photo.fill.on.rectangle.fill",
                 roomPosition: .floor,
                 accessoryPosition: .none
             )

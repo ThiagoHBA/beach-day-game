@@ -20,7 +20,7 @@ struct AvatarView: View {
                 .foregroundColor(.gray)
             GeometryReader { geo in
                 ForEach(accessories, id: \.self) { accessory in
-                    FindableItem(item: accessory.item)
+                    FindableItem(item: accessory.item, accessory: true)
                         .opacity(accessory.item.visible ? 1 : 0.001)
                         .border(.red)
                         .position(

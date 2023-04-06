@@ -10,9 +10,10 @@ import SwiftUI
 
 struct FindableItem: View {
     var item: RoomItem
+    var accessory: Bool = false
     
     var body: some View {
-        Image(systemName: item.image)
+        Image(systemName: accessory ? item.accessoryImage : item.image)
             .resizable()
             .frame(
                 maxWidth: item.type.getRelativeFrame.width,
