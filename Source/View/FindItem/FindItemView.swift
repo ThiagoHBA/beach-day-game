@@ -39,11 +39,11 @@ struct FindItemView: View {
                         )
                 }
                 
-                ForEach(dummyItems, id: \.self) { item in
+                ForEach(dummyItems) { item in
                     FindableItem(item: item)
                         .position(item.roomPosition.getPosition(on: geo.frame(in: .global)))
                         .offset(x: item.isDragging ? 10 : 0)
-                        .animation(Animation.default.repeatCount(5).speed(1), value: item.isDragging)
+                        .animation(Animation.default.repeatCount(5).speed(6), value: item.isDragging)
                         .onLongPressGesture {
                             let impact = UIImpactFeedbackGenerator(style: .heavy)
                             let index = dummyItems.firstIndex { $0.id == item.id }
