@@ -49,6 +49,7 @@ struct FindItemView: View {
                             let impact = UIImpactFeedbackGenerator(style: .heavy)
                             let index = dummyItems.firstIndex { $0.id == item.id }
                             if let index {
+                                print(dummyItems[index].type.description)
                                 impact.impactOccurred()
                                 withAnimation { dummyItems[index].isDragging.toggle() }
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {

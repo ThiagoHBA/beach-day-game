@@ -18,29 +18,6 @@ struct RoomItem: Identifiable, Hashable {
     let accessoryPosition: AccessoryPosition
 }
 
-enum ItemType {
-    case hat
-    case sunglass
-    case uvShirt
-    case guitar
-    case shoes
-    
-    var getRelativeFrame: CGSize {
-        switch self {
-            case .hat:
-                return CGSize(width: 50, height: 50)
-            case .sunglass:
-                return CGSize(width: 80, height: 50)
-            case .uvShirt:
-                return CGSize(width: 100, height: 300)
-            case .guitar:
-                return CGSize(width: 100, height: 150)
-            case .shoes:
-                return CGSize(width: 100, height: 100)
-        }
-    }
-}
-
 extension RoomItem {
     static func generateFindableItems() -> [RoomItem] {
         return [

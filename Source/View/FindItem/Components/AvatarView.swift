@@ -73,6 +73,7 @@ struct AvatarView: View {
                 
                 items[i].visible.toggle()
                 accessories[index].item.visible.toggle()
+                print(accessories[index].item.type.description)
             }
         }
     }
