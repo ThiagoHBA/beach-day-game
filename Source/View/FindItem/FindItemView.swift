@@ -59,9 +59,14 @@ struct FindItemView: View {
                         }
                 }
                 
-                ProgressBar(progress: $progress)
-                    .frame(width: geo.size.width * 0.25, height: 32)
-                    .position(x: geo.size.width * 0.85, y: geo.size.height * 0.08)
+                VStack {
+                    HStack {
+                        Spacer()
+                        ProgressBar(progress: $progress)
+                            .frame(width: geo.size.width * 0.25, height: 32)
+                    }
+                    Spacer()
+                }.padding(54)
             }
         }.edgesIgnoringSafeArea(.all)
     }
