@@ -14,18 +14,14 @@ struct MainView: View {
         ZStack {
             switch router.currentInteraction {
                 case .play:
-                     PlayView()
+                    PlayView()
                 case .carousel:
                     CarouselView().transition(.move(edge: .trailing))
                 case .findItem:
                     FindItemView()
                 case .sunscreen:
-                    Button {
-                        router.nextInteraction()
-                    } label: {
-                        Color.yellow
-                    }
-                }
+                    SunscreenView()
+            }
         }
         .preferredColorScheme(.light)
         .animation(.spring(), value: router.currentInteraction)

@@ -68,7 +68,11 @@ struct FindItemView: View {
                     Spacer()
                 }.padding(54)
             }
-        }.edgesIgnoringSafeArea(.all)
+        }
+        .onChange(of: progress, perform: { newValue in
+            if newValue >= 1 { router.nextInteraction() }
+        })
+        .edgesIgnoringSafeArea(.all)
     }
 }
 
