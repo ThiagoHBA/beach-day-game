@@ -11,6 +11,7 @@ struct FindItemView: View {
     @EnvironmentObject private var router: Router
     @ObservedObject private var controller = FindItemViewController()
     @State private var progress: CGFloat = 0.0
+    @State private var disableItem = false
     
     var body: some View {
         GeometryReader { geo in
@@ -25,7 +26,10 @@ struct FindItemView: View {
                 AvatarView(
                     items: $controller.findableItems,
                     protectionProgress: $progress,
-                    itemHasDropped: controller.showItemInteraction
+                    itemHasDropped: controller.showItemInteraction,
+                    wrongSpotDropped: {
+                        print("Wrong Spot!!")
+                    }
                 )
                     .frame(
                         width: geo.size.width * 0.2,
@@ -33,7 +37,7 @@ struct FindItemView: View {
                     )
                 
                 ForEach(controller.findableItems) { item in
-                    FindableItem(item: item)
+                    FindableItem(item: item, highlited: $controller.highlightItems)
                         .opacity(item.visible ? 1 : 0.001)
                         .onDrag {
                             return .init(contentsOf: URL(string: item.id.uuidString))!
@@ -41,10 +45,11 @@ struct FindItemView: View {
                         .position(
                             item.roomPosition.getPosition(on: geo.frame(in: .global))
                         )
+                        .disabled(disableItem)
                 }
                 
                 ForEach(controller.dummyItems) { item in
-                    FindableItem(item: item)
+                    FindableItem(item: item, highlited: $controller.highlightItems)
                         .position(item.roomPosition.getPosition(on: geo.frame(in: .global)))
                         .offset(x: item.isDragging ? 10 : 0)
                         .animation(Animation.default.repeatCount(5).speed(6), value: item.isDragging)
@@ -62,6 +67,7 @@ struct FindItemView: View {
                                 }
                             }
                         }
+                        .disabled(disableItem)
                 }
                 
                 VStack {
@@ -80,6 +86,9 @@ struct FindItemView: View {
                 )
             }
         }
+        .onChange(of: controller.ballonIsShowing, perform: { value in
+            disableItem = value
+        })
         .onChange(of: progress, perform: { newValue in
             if newValue >= 1 { router.nextInteraction() }
         })

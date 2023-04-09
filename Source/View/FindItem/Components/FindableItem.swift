@@ -11,14 +11,16 @@ import SwiftUI
 struct FindableItem: View {
     var item: RoomItem
     var accessory: Bool = false
+    @Binding var highlited: Bool
     
     var body: some View {
         Image(systemName: accessory ? item.accessoryImage : item.image)
             .resizable()
             .frame(
-                maxWidth: item.type.getRelativeFrame.width,
-                maxHeight: item.type.getRelativeFrame.height
+                maxWidth:  item.type.getRelativeFrame.width + (highlited ? 20.0 : 0.0),
+                maxHeight: item.type.getRelativeFrame.height + (highlited ? 20.0 : 0.0)
             )
+            .animation(Animation.default.repeatCount(5).speed(2), value: highlited)
     }
 }
 

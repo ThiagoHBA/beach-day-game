@@ -14,6 +14,7 @@ struct AvatarView: View {
     @State var accessories: [Accessory] = []
     @State var visibleItems = 0
     var itemHasDropped: ((RoomItem) -> Void)?
+    var wrongSpotDropped: (() -> Void)?
     
     var body: some View {
         ZStack {
@@ -21,7 +22,7 @@ struct AvatarView: View {
                 .foregroundColor(.gray)
             GeometryReader { geo in
                 ForEach(accessories, id: \.self) { accessory in
-                    FindableItem(item: accessory.item, accessory: true)
+                    FindableItem(item: accessory.item, accessory: true, highlited: .constant(false))
                         .opacity(accessory.item.visible ? 1 : 0.001)
                         .border(.red)
                         .position(
@@ -62,21 +63,24 @@ struct AvatarView: View {
     
     func verifyItemDrop(with url: URL, on position: AccessoryPosition) {
         for i in 0..<items.count {
-            if items[i].id.uuidString == "\(url)" &&
-            items[i].accessoryPosition == position {
-                guard let index = accessories.firstIndex(
-                    where:{
-                        $0.item.id == items[i].id
+            if items[i].id.uuidString == "\(url)" {
+                if items[i].accessoryPosition == position {
+                    guard let index = accessories.firstIndex(
+                        where:{
+                            $0.item.id == items[i].id
+                        }
+                    ) else { return }
+                    
+                    DispatchQueue.main.async {
+                        items[i].visible.toggle()
+                        accessories[index].item.visible.toggle()
+                        visibleItems += 1
+                        calculateProgress()
+                        itemHasDropped?(items[i])
                     }
-                ) else { return }
-                
-                DispatchQueue.main.async {
-                    items[i].visible.toggle()
-                    accessories[index].item.visible.toggle()
-                    visibleItems += 1
-                    calculateProgress()
-                    itemHasDropped?(items[i])
+                    return
                 }
+                wrongSpotDropped?()
             }
         }
     }

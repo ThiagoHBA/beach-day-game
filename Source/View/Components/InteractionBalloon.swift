@@ -18,7 +18,10 @@ struct InteractionBalloon: View {
             .animation(.spring(), value: 1.0)
             .opacity(showing ? 1 : 0)
             .onTapGesture {
-                withAnimation(.linear) { interactionOver?() }
+                interaction.action?()
+                withAnimation(.linear) {
+                    interactionOver?()
+                }
             }
             .onReceive(timer) { timer in
                 if showing,
@@ -26,6 +29,7 @@ struct InteractionBalloon: View {
                         interactionDuration += 1
                         if interactionDuration > duration {
                             interactionDuration = 0
+                            interaction.action?()
                             withAnimation(.linear) { interactionOver?() }
                         }
                 }
