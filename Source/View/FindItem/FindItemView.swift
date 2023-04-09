@@ -9,8 +9,7 @@ import SwiftUI
 
 struct FindItemView: View {
     @EnvironmentObject private var router: Router
-    @State private var findableItems = RoomItem.generateFindableItems()
-    @State private var dummyItems = RoomItem.generateDummyItems()
+    @ObservedObject private var controller = FindItemViewController()
     @State private var progress: CGFloat = 0.0
     
     var body: some View {
@@ -23,13 +22,17 @@ struct FindItemView: View {
                         height: UIScreen.main.bounds.height
                     )
                 
-                AvatarView(items: $findableItems, protectionProgress: $progress)
+                AvatarView(
+                    items: $controller.findableItems,
+                    protectionProgress: $progress,
+                    itemHasDropped: controller.showItemInteraction
+                )
                     .frame(
                         width: geo.size.width * 0.2,
                         height: geo.size.height * 0.6
                     )
                 
-                ForEach(findableItems) { item in
+                ForEach(controller.findableItems) { item in
                     FindableItem(item: item)
                         .opacity(item.visible ? 1 : 0.001)
                         .onDrag {
@@ -40,20 +43,22 @@ struct FindItemView: View {
                         )
                 }
                 
-                ForEach(dummyItems) { item in
+                ForEach(controller.dummyItems) { item in
                     FindableItem(item: item)
                         .position(item.roomPosition.getPosition(on: geo.frame(in: .global)))
                         .offset(x: item.isDragging ? 10 : 0)
                         .animation(Animation.default.repeatCount(5).speed(6), value: item.isDragging)
                         .onLongPressGesture {
                             let impact = UIImpactFeedbackGenerator(style: .heavy)
-                            let index = dummyItems.firstIndex { $0.id == item.id }
+                            let index = controller.dummyItems.firstIndex { $0.id == item.id }
                             if let index {
-                                print(dummyItems[index].type.description)
                                 impact.impactOccurred()
-                                withAnimation { dummyItems[index].isDragging.toggle() }
+                                controller.showItemInteraction(controller.dummyItems[index])
+                                withAnimation {
+                                    controller.dummyItems[index].isDragging.toggle()
+                                }
                                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
-                                    dummyItems[index].isDragging.toggle()
+                                    controller.dummyItems[index].isDragging.toggle()
                                 }
                             }
                         }
@@ -67,11 +72,18 @@ struct FindItemView: View {
                     }
                     Spacer()
                 }.padding(54)
+                
+                InteractionBalloon(
+                    interaction: controller.currentInteraction,
+                    interactionOver: controller.updateInteractionIndex,
+                    showing: controller.ballonIsShowing
+                )
             }
         }
         .onChange(of: progress, perform: { newValue in
             if newValue >= 1 { router.nextInteraction() }
         })
+        .onAppear { controller.showInteraction() }
         .edgesIgnoringSafeArea(.all)
     }
 }

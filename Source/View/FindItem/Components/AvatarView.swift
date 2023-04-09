@@ -13,6 +13,7 @@ struct AvatarView: View {
     @Binding var protectionProgress: CGFloat
     @State var accessories: [Accessory] = []
     @State var visibleItems = 0
+    var itemHasDropped: ((RoomItem) -> Void)?
     
     var body: some View {
         ZStack {
@@ -34,9 +35,7 @@ struct AvatarView: View {
                                 let _ = first.loadObject(ofClass: URL.self) {
                                     value, error in
                                     guard let url = value else { return }
-                                    itemDropped(with: url, on: accessory.position)
-                                    visibleItems += 1
-                                    calculateProgress()
+                                    verifyItemDrop(with: url, on: accessory.position)
                                 }
                             }
                             return false
@@ -61,7 +60,7 @@ struct AvatarView: View {
         }
     }
     
-    func itemDropped(with url: URL, on position: AccessoryPosition) {
+    func verifyItemDrop(with url: URL, on position: AccessoryPosition) {
         for i in 0..<items.count {
             if items[i].id.uuidString == "\(url)" &&
             items[i].accessoryPosition == position {
@@ -71,9 +70,13 @@ struct AvatarView: View {
                     }
                 ) else { return }
                 
-                items[i].visible.toggle()
-                accessories[index].item.visible.toggle()
-                print(accessories[index].item.type.description)
+                DispatchQueue.main.async {
+                    items[i].visible.toggle()
+                    accessories[index].item.visible.toggle()
+                    visibleItems += 1
+                    calculateProgress()
+                    itemHasDropped?(items[i])
+                }
             }
         }
     }
