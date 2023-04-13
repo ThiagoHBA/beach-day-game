@@ -13,23 +13,26 @@ struct PlayView: View {
     
     var body: some View {
         ZStack {
+            Image("main-background")
+                .resizable()
+                .scaledToFill()
+                .blur(radius: 2)
             VStack {
-                Text("Beach Day")
-                    .font(Font.system(size: 72))
-                    .bold()
-                Text("A short description")
-                    .font(.body)
-                    .padding([.bottom], 16)
-                Button {
+                VStack {
+                    Text("BeachDay")
+                        .font(Font.system(size: 160))
+                        .bold()
+                    Text("The importance of sun care for children")
+                        .font(.title)
+                        .bold()
+                        .padding(0)
+                }
+                .padding([.top, .bottom], 200)
+                FilledButton(title: "Start") {
                     router.nextInteraction()
                     disableButton.toggle()
-                } label: {
-                    Text("Play")
-                        .frame(width: 100, height: 50)
-                        .background(.black)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
-                }.disabled(disableButton)
+                }
+                .disabled(disableButton)
             }
         }
     }

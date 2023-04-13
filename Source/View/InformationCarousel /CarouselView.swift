@@ -13,32 +13,43 @@ struct CarouselView: View {
     @State private var currentIndex: Int = 0
     
     var body: some View {
-        VStack {
-            CarouselText(
-                text: controller.carouselOrder.textContent.texts[currentIndex]
-            )
-            .frame(height: 300)
-            .animation(.easeIn, value: currentIndex)
-            CarouselButtons(
-                nextTapped: {
-                    if currentIndex < controller.carouselOrder.textContent.texts.count - 1 {
-                        currentIndex += 1
-                        return
+        ZStack {
+            Image("main-background")
+                .resizable()
+                .scaledToFill()
+                .blur(radius: 5)
+            VStack {
+                CarouselText(
+                    text: controller.carouselOrder.textContent.texts[currentIndex]
+                )
+                .frame(width: UIScreen.main.bounds.width * 0.8, height: 300)
+                .animation(.easeIn, value: currentIndex)
+                .background(
+                    .ultraThinMaterial,
+                    in: RoundedRectangle(cornerRadius: 8, style: .continuous)
+                )
+                .padding([.bottom], 20)
+                CarouselButtons(
+                    nextTapped: {
+                        if currentIndex < controller.carouselOrder.textContent.texts.count - 1 {
+                            withAnimation { currentIndex += 1   }
+                            return
+                        }
+                        controller.nextPage()
+                        currentIndex = 0
+                    },
+                    previousTapped: currentIndex == 0 ? nil : {
+                        if currentIndex > 0 {
+                            currentIndex -= 1
+                        }
                     }
-                    controller.nextPage()
-                    currentIndex = 0
-                },
-                previousTapped: currentIndex == 0 ? nil : {
-                    if currentIndex > 0 {
-                        currentIndex -= 1
-                    }
-                }
-            )
+                )
+            }
+            .frame(maxWidth: 900)
+            .animation(.spring(), value: controller.carouselOrder)
+            .onAppear { controller.didEndPages = router.nextInteraction }
+            .environmentObject(controller)
         }
-        .frame(maxWidth: 900)
-        .animation(.spring(), value: controller.carouselOrder)
-        .onAppear { controller.didEndPages = router.nextInteraction }
-        .environmentObject(controller)
     }
 }
 

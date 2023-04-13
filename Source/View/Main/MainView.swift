@@ -16,7 +16,7 @@ struct MainView: View {
                 case .play:
                     PlayView()
                 case .carousel:
-                    CarouselView().transition(.move(edge: .trailing))
+                    CarouselView().transition(.opacity.animation(Animation.default.delay(0.5)))
                 case .findItem:
                     FindItemView()
                 case .sunscreen:
@@ -33,5 +33,19 @@ struct MainView: View {
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
+            .previewDevice(PreviewDevice(rawValue: "iPad (10th generation)"))
+            .previewInterfaceOrientation(.landscapeLeft)
+        
+        MainView()
+            .previewDevice(PreviewDevice(rawValue: "iPad Air (5th generation)"))
+            .previewInterfaceOrientation(.landscapeLeft)
+        
+        MainView()
+            .previewDevice(PreviewDevice(rawValue: "iPad mini (6th generation)"))
+            .previewInterfaceOrientation(.landscapeLeft)
+        
+        MainView()
+            .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch) (6th generation)"))
+            .previewInterfaceOrientation(.landscapeLeft)
     }
 }
