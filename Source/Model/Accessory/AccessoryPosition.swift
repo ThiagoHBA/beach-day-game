@@ -18,17 +18,17 @@ enum AccessoryPosition {
             case .head:
                 return CGPoint(
                     x: frame.size.width * 0.5,
-                    y: frame.size.height * 0.05
+                    y: frame.size.height * 0.08
                 )
             case .eyes:
                 return CGPoint(
                     x: frame.size.width * 0.5,
-                    y: frame.size.height * 0.15
+                    y: frame.size.height * 0.22
                 )
             case .body:
                return CGPoint(
                     x: frame.size.width * 0.5,
-                    y: frame.size.height * 0.5
+                    y: frame.size.height * 0.56
                 )
             case .none:
                 return CGPoint(x: 0.0, y: 0.0)

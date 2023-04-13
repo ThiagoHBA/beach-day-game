@@ -7,6 +7,30 @@
 
 import Foundation
 import SwiftUI
+import SpriteKit
+
+class Avatar: SKScene {
+    override func didMove(to view: SKView) {
+        let kidIdleAtlas = SKTextureAtlas(named: "kid_idle")
+        let node = SKSpriteNode(texture: kidIdleAtlas.textureNamed("kid_idle01"))
+        node.zPosition = 1
+        node.anchorPoint = CGPoint.zero
+//        node.position = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
+        addChild(node)
+        
+//        node.run(
+//            SKAction.repeatForever(
+//                SKAction.animate(
+//                    with: kidIdleAtlas.textureNames.map(SKTexture.init(imageNamed:)),
+//                    timePerFrame: 0.5,
+//                    resize: false,
+//                    restore: true
+//                )
+//            )
+//        )
+        
+    }
+}
 
 struct AvatarView: View {
     @Binding var items: [RoomItem]
@@ -16,10 +40,19 @@ struct AvatarView: View {
     var itemHasDropped: ((RoomItem) -> Void)?
     var wrongSpotDropped: (() -> Void)?
     
+    var scene: SKScene {
+        let scene = Avatar()
+        scene.size = CGSize(width: 312, height: 710)
+        scene.scaleMode = .aspectFill
+        scene.backgroundColor = .clear
+        return scene
+    }
+    
     var body: some View {
         ZStack {
-            Capsule()
-                .foregroundColor(.gray)
+            SpriteView(scene: scene, options: [.allowsTransparency])
+                .frame(width: 312, height: 710)
+                .background(.clear)
             GeometryReader { geo in
                 ForEach(accessories, id: \.self) { accessory in
                     FindableItem(item: accessory.item, accessory: true, highlited: .constant(false))

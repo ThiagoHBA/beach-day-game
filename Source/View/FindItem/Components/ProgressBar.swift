@@ -13,10 +13,10 @@ struct ProgressBar: View {
     var body: some View {
         GeometryReader { geo in
             Capsule()
-                .foregroundColor(.green)
+                .foregroundColor(.gray)
                 .overlay {
                     Capsule()
-                        .foregroundColor(.red)
+                        .foregroundColor(.green)
                         .padding(8)
                         .frame(width: geo.size.width * progress)
                         .position(x: (geo.size.width * progress)/2, y: geo.size.height/2)
