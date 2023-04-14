@@ -1,4 +1,4 @@
-    //
+//
 //  SwiftUIView.swift
 //  
 //
@@ -30,11 +30,13 @@ struct FindItemView: View {
                     wrongSpotDropped: {
                         print("Wrong Spot!!")
                     }
+                ).frame(
+                    width: geo.size.width * 0.15,
+                    height: geo.size.height * 0.7
+                ).position(
+                    x: geo.size.width * 0.5,
+                    y: geo.size.height * 0.55
                 )
-                    .frame(
-                        width: geo.size.width * 0.2,
-                        height: geo.size.height * 0.6
-                    )
                 
                 ForEach(controller.findableItems) { item in
                     FindableItem(item: item, highlited: $controller.highlightItems)
@@ -79,7 +81,7 @@ struct FindItemView: View {
                     Spacer()
                 }.padding(54)
                 
-                InteractionBalloon(
+                SpeakBalloon(
                     interaction: controller.currentInteraction,
                     interactionOver: controller.updateInteractionIndex,
                     showing: controller.ballonIsShowing
@@ -96,7 +98,6 @@ struct FindItemView: View {
         .edgesIgnoringSafeArea(.all)
     }
 }
-
 
 struct FindItemView_Previews: PreviewProvider {
     static var previews: some View {

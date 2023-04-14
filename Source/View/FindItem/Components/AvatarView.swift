@@ -51,7 +51,7 @@ struct AvatarView: View {
     var body: some View {
         ZStack {
             SpriteView(scene: scene, options: [.allowsTransparency])
-                .frame(width: 312, height: 710)
+//                .frame(width: 312, height: 710)
                 .background(.clear)
             GeometryReader { geo in
                 ForEach(accessories, id: \.self) { accessory in

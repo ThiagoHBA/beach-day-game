@@ -26,7 +26,8 @@ class FindItemViewController: ObservableObject {
             InteractionText (
                 text: item.type.description,
                 screenPosition: .bottom,
-                minimumDuration: 4
+                type: .speak,
+                minimumDuration: 5
             )
         ]
         currentIndex = 0
@@ -51,19 +52,28 @@ class FindItemViewController: ObservableObject {
             currentInteraction = interactionTexts[currentIndex]
             return
         }
-        currentInteraction = InteractionText(text: "", screenPosition: .top, minimumDuration: 0)
+        currentInteraction = InteractionText(
+            text: "",
+            screenPosition: .top,
+            type: .information,
+            minimumDuration: 0
+        )
     }
-    
+}
+
+extension FindItemViewController {
     private func generateInitialTexts() {
         interactionTexts = [
             InteractionText(
                 text: "Today is finally beach day! I need to prepare as quickly as possible without forgetting anything!",
                 screenPosition: .center,
+                type: .speak,
                 minimumDuration: 4
             ),
             InteractionText(
                 text: "I have several items in my room",
                 screenPosition: .center,
+                type: .speak,
                 minimumDuration: 1,
                 action: { [weak self] in
                     self?.highlightItems.toggle()
@@ -75,19 +85,27 @@ class FindItemViewController: ObservableObject {
             InteractionText(
                 text: "I have several items in my room",
                 screenPosition: .center,
+                type: .speak,
                 minimumDuration: 1
             ),
             InteractionText(
                 text: "I need to find out which ones will help me enjoy the beach safely",
                 screenPosition: .center,
-                minimumDuration: 3
+                type: .speak,
+                minimumDuration: 5
             ),
             InteractionText(
                 text: "Alright, let's get started, what do I need to bring?",
                 screenPosition: .center,
-                minimumDuration: 2
+                type: .speak,
+                minimumDuration: 4
+            ),
+            InteractionText(
+                text: "Drag to Ethan's body the items who will help in his protection on the beach",
+                screenPosition: .top,
+                type: .information,
+                minimumDuration: 5
             )
         ]
     }
-    
 }

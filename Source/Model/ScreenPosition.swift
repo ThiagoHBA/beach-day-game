@@ -18,7 +18,7 @@ enum ScreenPosition {
         case.center:
             return UIScreen.main.bounds.height * 0
         case .top:
-            return -UIScreen.main.bounds.height * 0.4
+            return -UIScreen.main.bounds.height * 0.3
         case .bottom:
             return UIScreen.main.bounds.height * 0.3
         }

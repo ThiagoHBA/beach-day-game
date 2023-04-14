@@ -17,7 +17,7 @@ struct FilledButton: View {
             Text(title)
                 .font(Font.system(.title2))
                 .bold()
-                .padding([.bottom, .top], 20)
+                .padding([.bottom, .top], 16)
                 .padding([.leading, .trailing], 52)
                 .foregroundColor(.black)
                 .background(.yellow)
