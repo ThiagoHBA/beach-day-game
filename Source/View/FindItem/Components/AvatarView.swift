@@ -7,28 +7,19 @@
 
 import Foundation
 import SwiftUI
-import SpriteKit
 
-class Avatar: SKScene {
-    override func didMove(to view: SKView) {
-        let kidIdleAtlas = SKTextureAtlas(named: "kid_idle")
-        let node = SKSpriteNode(texture: kidIdleAtlas.textureNamed("kid_idle01"))
-        node.zPosition = 1
-        node.anchorPoint = CGPoint.zero
-//        node.position = CGPoint(x: view.bounds.midX, y: view.bounds.midY)
-        addChild(node)
-        
-//        node.run(
-//            SKAction.repeatForever(
-//                SKAction.animate(
-//                    with: kidIdleAtlas.textureNames.map(SKTexture.init(imageNamed:)),
-//                    timePerFrame: 0.5,
-//                    resize: false,
-//                    restore: true
-//                )
-//            )
-//        )
-        
+struct KidImage: View {
+    var removeHair: Bool = false
+    
+    var body: some View {
+        ZStack {
+            Image("kid_idle01")
+            GeometryReader { geo in
+                Image(removeHair ? "" : "kid_hair")
+                    .position(x: geo.size.width * 0.465, y: geo.size.height * 0.12)
+            }
+            
+        }
     }
 }
 
@@ -37,22 +28,13 @@ struct AvatarView: View {
     @Binding var protectionProgress: CGFloat
     @State var accessories: [Accessory] = []
     @State var visibleItems = 0
+    @State var removeHair = false
     var itemHasDropped: ((RoomItem) -> Void)?
     var wrongSpotDropped: (() -> Void)?
     
-    var scene: SKScene {
-        let scene = Avatar()
-        scene.size = CGSize(width: 312, height: 710)
-        scene.scaleMode = .aspectFill
-        scene.backgroundColor = .clear
-        return scene
-    }
-    
     var body: some View {
         ZStack {
-            SpriteView(scene: scene, options: [.allowsTransparency])
-//                .frame(width: 312, height: 710)
-                .background(.clear)
+            KidImage(removeHair: removeHair)
             GeometryReader { geo in
                 ForEach(accessories, id: \.self) { accessory in
                     FindableItem(item: accessory.item, accessory: true, highlited: .constant(false))
@@ -110,10 +92,15 @@ struct AvatarView: View {
                         visibleItems += 1
                         calculateProgress()
                         itemHasDropped?(items[i])
+                        if position == .head {
+                            removeHair = true
+                        }
                     }
                     return
                 }
-                wrongSpotDropped?()
+                DispatchQueue.main.async {
+                    wrongSpotDropped?()
+                }
             }
         }
     }

@@ -9,9 +9,10 @@ import Foundation
 
 enum RoomPosition {
     case wallShelf
-    case bench
+    case keyboard
+    case wall
     case wardrobe
-    case bed
+    case bedsideTable
     case floor
     
     func getPosition(on parent: CGRect) -> CGPoint {
@@ -21,25 +22,30 @@ enum RoomPosition {
                     x: parent.size.width * 0.16,
                     y: parent.size.height * 0.11
                 )
-            case .bench:
+            case .keyboard:
                 return CGPoint(
-                    x: parent.size.width * 0.30,
-                    y: parent.size.height * 0.57
+                    x: parent.size.width * 0.34,
+                    y: parent.size.height * 0.45
                 )
             case .wardrobe:
                 return CGPoint(
                     x: parent.size.width * 0.93,
                     y: parent.size.height * 0.49
                 )
-            case .bed:
+            case .bedsideTable:
                 return CGPoint(
-                    x: parent.size.width * 0.13,
-                    y: parent.size.height * 0.75
+                    x: parent.size.width * 0.98,
+                    y: parent.size.height * 0.59
                 )
             case .floor:
                 return CGPoint(
                     x: parent.size.width * 0.85,
                     y: parent.size.height * 0.9
+                )
+            case .wall:
+                return CGPoint(
+                    x: parent.size.width * 0.347,
+                    y: parent.size.height * 0.3
                 )
         }
     }

@@ -17,13 +17,13 @@ enum ItemType {
     var getRelativeFrame: CGSize {
         switch self {
             case .hat:
-                return CGSize(width: 50, height: 50)
+                return CGSize(width: 300, height: 150)
             case .sunglass:
-                return CGSize(width: 80, height: 50)
+                return CGSize(width: 220, height: 100)
             case .uvShirt:
-                return CGSize(width: 100, height: 300)
+                return CGSize(width: 200, height: 250)
             case .guitar:
-                return CGSize(width: 100, height: 150)
+                return CGSize(width: 120, height: 150)
             case .shoes:
                 return CGSize(width: 100, height: 100)
         }

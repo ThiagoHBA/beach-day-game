@@ -23,16 +23,16 @@ extension RoomItem {
         return [
             RoomItem(
                 type: .hat,
-                image: "photo.fill",
-                accessoryImage: "photo.fill.on.rectangle.fill",
-                roomPosition: .wallShelf,
+                image: "hat_undrawed",
+                accessoryImage: "hat_drawed",
+                roomPosition: .keyboard,
                 accessoryPosition: .head
             ),
             RoomItem(
                 type: .sunglass,
-                image: "photo.fill",
-                accessoryImage: "photo.fill.on.rectangle.fill",
-                roomPosition: .bench,
+                image: "sunglass_undrawed",
+                accessoryImage: "sunglass_drawed",
+                roomPosition: .bedsideTable,
                 accessoryPosition: .eyes
             ),
             RoomItem(
@@ -49,9 +49,9 @@ extension RoomItem {
         return [
             RoomItem(
                 type: .guitar,
-                image: "guitars.fill",
-                accessoryImage: "photo.fill.on.rectangle.fill",
-                roomPosition: .bed,
+                image: "guitar",
+                accessoryImage: "guitar",
+                roomPosition: .wall,
                 accessoryPosition: .none
             ),
             RoomItem(

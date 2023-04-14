@@ -37,6 +37,20 @@ class FindItemViewController: ObservableObject {
         showInteraction()
     }
     
+    func wrongSpotItemDropped() {
+        interactionTexts = [
+            InteractionText(
+                text: "Try again in different part of body!!",
+                screenPosition: .top,
+                type: .information,
+                minimumDuration: 2
+            )
+        ]
+        currentIndex = 0
+        updateCurrentInteraction()
+        showInteraction()
+    }
+    
     func showInteraction() { ballonIsShowing = true }
     
     func updateInteractionIndex() {

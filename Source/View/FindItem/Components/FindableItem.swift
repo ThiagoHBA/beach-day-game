@@ -14,8 +14,9 @@ struct FindableItem: View {
     @Binding var highlited: Bool
     
     var body: some View {
-        Image(systemName: accessory ? item.accessoryImage : item.image)
+        Image(accessory ? item.accessoryImage : item.image)
             .resizable()
+            .scaledToFill()
             .frame(
                 maxWidth:  item.type.getRelativeFrame.width + (highlited ? 20.0 : 0.0),
                 maxHeight: item.type.getRelativeFrame.height + (highlited ? 20.0 : 0.0)

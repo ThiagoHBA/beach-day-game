@@ -19,13 +19,13 @@ struct SpeakBalloon: View {
         if interaction.type == .speak {
             GeometryReader { geo in
                 HStack {
-                    Image("kid_idle01")
-                        .offset(y: 200)
+                    KidImage()
+                        .offset(x: 20,y: 220)
                         .mask {
                             Rectangle()
                                 .cornerRadius(25)
-                                .frame(width: 200, height: 200)
-                                .padding(40)
+                                .frame(width: 250, height: 250)
+                                .padding([.leading, .trailing, .bottom], 40)
                         }
                     
                     Text(interaction.text)

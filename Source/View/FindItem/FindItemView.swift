@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FindItemView: View {
-    @EnvironmentObject private var router: Router
+//    @EnvironmentObject private var router: Router
     @ObservedObject private var controller = FindItemViewController()
     @State private var disableItem = false
     
@@ -26,9 +26,7 @@ struct FindItemView: View {
                     items: $controller.findableItems,
                     protectionProgress: $controller.progress,
                     itemHasDropped: controller.showItemInteraction,
-                    wrongSpotDropped: {
-                        print("Wrong Spot!!")
-                    }
+                    wrongSpotDropped: controller.wrongSpotItemDropped
                 ).frame(
                     width: geo.size.width * 0.15,
                     height: geo.size.height * 0.7
@@ -46,7 +44,7 @@ struct FindItemView: View {
                         .position(
                             item.roomPosition.getPosition(on: geo.frame(in: .global))
                         )
-                        .disabled(disableItem)
+                    .disabled(disableItem || !item.visible)
                 }
                 
                 ForEach(controller.dummyItems) { item in
@@ -91,7 +89,7 @@ struct FindItemView: View {
             disableItem = value
         })
         .onAppear {
-            controller.didEndInteractions = router.nextInteraction
+//            controller.didEndInteractions = router.nextInteraction
             controller.showInteraction()
         }
         .edgesIgnoringSafeArea(.all)
