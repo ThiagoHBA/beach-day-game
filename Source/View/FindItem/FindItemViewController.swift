@@ -12,9 +12,11 @@ class FindItemViewController: ObservableObject {
     @Published var dummyItems = RoomItem.generateDummyItems()
     @Published var interactionTexts: [InteractionText]!
     @Published var currentInteraction: InteractionText!
+    @Published var progress: CGFloat = 0.0
     @Published var highlightItems = false
     @Published private(set) var ballonIsShowing = false
     private var currentIndex = 0
+    var didEndInteractions: (() -> Void)?
     
     init() {
         generateInitialTexts()
@@ -38,6 +40,7 @@ class FindItemViewController: ObservableObject {
     func showInteraction() { ballonIsShowing = true }
     
     func updateInteractionIndex() {
+        if progress >= 1 { didEndInteractions?() }
         if currentIndex < interactionTexts.count - 1 {
             currentIndex += 1
             updateCurrentInteraction()

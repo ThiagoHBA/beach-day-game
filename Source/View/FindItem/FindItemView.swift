@@ -10,7 +10,6 @@ import SwiftUI
 struct FindItemView: View {
     @EnvironmentObject private var router: Router
     @ObservedObject private var controller = FindItemViewController()
-    @State private var progress: CGFloat = 0.0
     @State private var disableItem = false
     
     var body: some View {
@@ -25,7 +24,7 @@ struct FindItemView: View {
                 
                 AvatarView(
                     items: $controller.findableItems,
-                    protectionProgress: $progress,
+                    protectionProgress: $controller.progress,
                     itemHasDropped: controller.showItemInteraction,
                     wrongSpotDropped: {
                         print("Wrong Spot!!")
@@ -75,7 +74,7 @@ struct FindItemView: View {
                 VStack {
                     HStack {
                         Spacer()
-                        ProgressBar(progress: $progress)
+                        ProgressBar(progress: $controller.progress)
                             .frame(width: geo.size.width * 0.25, height: 32)
                     }
                     Spacer()
@@ -91,10 +90,10 @@ struct FindItemView: View {
         .onChange(of: controller.ballonIsShowing, perform: { value in
             disableItem = value
         })
-        .onChange(of: progress, perform: { newValue in
-            if newValue >= 1 { router.nextInteraction() }
-        })
-        .onAppear { controller.showInteraction() }
+        .onAppear {
+            controller.didEndInteractions = router.nextInteraction
+            controller.showInteraction()
+        }
         .edgesIgnoringSafeArea(.all)
     }
 }
