@@ -25,14 +25,15 @@ struct SpeakBalloon: View {
                             Rectangle()
                                 .cornerRadius(25)
                                 .frame(width: 250, height: 250)
-                                .padding([.leading, .trailing, .bottom], 40)
                         }
+                        .frame(width: 250, height: 250)
+                        .padding([.trailing], 40)
                     
                     Text(interaction.text)
-                        .font(Font.system(size: 26))
+                        .font(Font.system(size: 28))
                         .multilineTextAlignment(.leading)
-                        .frame(width: geo.size.width * 0.6)
-                        .padding([.trailing], 150)
+                        .frame(width: geo.size.width * 0.5)
+                        .padding([.trailing], 180)
                 }
                 .frame(width: geo.size.width, height: 322)
                 .foregroundColor(.black)

@@ -8,21 +8,6 @@
 import Foundation
 import SwiftUI
 
-struct KidImage: View {
-    var removeHair: Bool = false
-    
-    var body: some View {
-        ZStack {
-            Image("kid_idle01")
-            GeometryReader { geo in
-                Image(removeHair ? "" : "kid_hair")
-                    .position(x: geo.size.width * 0.465, y: geo.size.height * 0.12)
-            }
-            
-        }
-    }
-}
-
 struct AvatarView: View {
     @Binding var items: [RoomItem]
     @Binding var protectionProgress: CGFloat
@@ -39,7 +24,6 @@ struct AvatarView: View {
                 ForEach(accessories, id: \.self) { accessory in
                     FindableItem(item: accessory.item, accessory: true, highlited: .constant(false))
                         .opacity(accessory.item.visible ? 1 : 0.001)
-                        .border(.red)
                         .position(
                             accessory.item.accessoryPosition.getPositionCoordinate(
                                 geo.frame(in: .global)

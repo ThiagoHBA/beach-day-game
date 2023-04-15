@@ -18,9 +18,10 @@ struct FindableItem: View {
             .resizable()
             .scaledToFill()
             .frame(
-                maxWidth:  item.type.getRelativeFrame.width + (highlited ? 20.0 : 0.0),
-                maxHeight: item.type.getRelativeFrame.height + (highlited ? 20.0 : 0.0)
+                maxWidth:  item.type.getRelativeFrame.width,
+                maxHeight: item.type.getRelativeFrame.height
             )
+            .scaleEffect(highlited ? 1.5 : 1)
             .scaleEffect(accessory ? 1 : 0.4)
             .animation(Animation.default.repeatCount(5).speed(2), value: highlited)
     }

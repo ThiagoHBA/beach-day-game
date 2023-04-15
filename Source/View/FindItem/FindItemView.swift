@@ -72,8 +72,18 @@ struct FindItemView: View {
                 VStack {
                     HStack {
                         Spacer()
-                        ProgressBar(progress: $controller.progress)
-                            .frame(width: geo.size.width * 0.25, height: 32)
+                        VStack(alignment: .leading, spacing: 0) {
+                            Text("Protection Progress")
+                                .font(Font.system(.caption))
+                                .foregroundColor(.white)
+                                .bold()
+                                .padding([.leading], 8)
+                            ProgressBar(progress: $controller.progress)
+                                .frame(
+                                    width: geo.size.width * 0.25,
+                                    height: 32
+                                )
+                        }
                     }
                     Spacer()
                 }.padding(54)
