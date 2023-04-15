@@ -11,6 +11,7 @@ struct FindItemView: View {
 //    @EnvironmentObject private var router: Router
     @ObservedObject private var controller = FindItemViewController()
     @State private var disableItem = false
+    @State private var draggedItem: RoomItem?
     
     var body: some View {
         GeometryReader { geo in
@@ -25,6 +26,7 @@ struct FindItemView: View {
                 AvatarView(
                     items: $controller.findableItems,
                     protectionProgress: $controller.progress,
+                    draggedItem: $draggedItem,
                     itemHasDropped: controller.showItemInteraction,
                     wrongSpotDropped: controller.wrongSpotItemDropped
                 ).frame(
@@ -39,7 +41,13 @@ struct FindItemView: View {
                     FindableItem(item: item, highlited: $controller.highlightItems)
                         .opacity(item.visible ? 1 : 0.001)
                         .onDrag {
+                            draggedItem = item
                             return .init(contentsOf: URL(string: item.id.uuidString))!
+                        } preview: {
+                            DragPreviewImage(
+                                image: item.image,
+                                onDropArea: item.onDropArea
+                            )
                         }
                         .position(
                             item.roomPosition.getPosition(on: geo.frame(in: .global))

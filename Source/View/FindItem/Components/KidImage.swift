@@ -13,12 +13,14 @@ struct KidImage: View {
     var body: some View {
         ZStack {
             Image("kid_idle01")
-            GeometryReader { geo in
-                Image(removeHair ? "" : "kid_hair")
-                    .position(
-                        x: geo.frame(in: .global).width * 0.47,
-                        y: geo.frame(in: .global).height * 0.12
-                    )
+            if !removeHair {
+                GeometryReader { geo in
+                    Image("kid_hair")
+                        .position(
+                            x: geo.frame(in: .global).width * 0.47,
+                            y: geo.frame(in: .global).height * 0.12
+                        )
+                }
             }
             
         }

@@ -11,6 +11,7 @@ struct RoomItem: Identifiable, Hashable {
     let id: UUID = UUID()
     var visible: Bool = true
     var isDragging: Bool = false
+    var onDropArea: Bool = false
     let type: ItemType
     let image: String
     let accessoryImage: String
@@ -37,8 +38,8 @@ extension RoomItem {
             ),
             RoomItem(
                 type: .uvShirt,
-                image: "photo.fill",
-                accessoryImage: "photo.fill.on.rectangle.fill",
+                image: "uvshirt_undrawed",
+                accessoryImage: "uvshirt_undrawed",
                 roomPosition: .wardrobe,
                 accessoryPosition: .body
             )
@@ -56,8 +57,8 @@ extension RoomItem {
             ),
             RoomItem(
                 type: .shoes,
-                image: "car.2.fill",
-                accessoryImage: "photo.fill.on.rectangle.fill",
+                image: "shoes_undrawed",
+                accessoryImage: "shoes_undrawed",
                 roomPosition: .floor,
                 accessoryPosition: .none
             )

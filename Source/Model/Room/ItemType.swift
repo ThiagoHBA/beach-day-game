@@ -21,11 +21,13 @@ enum ItemType {
             case .sunglass:
                 return CGSize(width: 220, height: 100)
             case .uvShirt:
-                return CGSize(width: 200, height: 250)
+                return CGSize(
+                    width: 200, height: 250
+                )
             case .guitar:
                 return CGSize(width: 250, height: 250)
             case .shoes:
-                return CGSize(width: 100, height: 100)
+                return CGSize(width: 250, height: 250)
         }
     }
     
