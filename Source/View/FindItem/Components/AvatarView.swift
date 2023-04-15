@@ -92,9 +92,7 @@ struct AvatarView: View {
                         visibleItems += 1
                         calculateProgress()
                         itemHasDropped?(items[i])
-                        if position == .head {
-                            removeHair = true
-                        }
+                        if position == .head { removeHair = true }
                     }
                     return
                 }

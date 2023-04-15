@@ -24,8 +24,8 @@ enum RoomPosition {
                 )
             case .keyboard:
                 return CGPoint(
-                    x: parent.size.width * 0.34,
-                    y: parent.size.height * 0.45
+                    x: parent.size.width * 0.35,
+                    y: parent.size.height * 0.4897
                 )
             case .wardrobe:
                 return CGPoint(
@@ -34,7 +34,7 @@ enum RoomPosition {
                 )
             case .bedsideTable:
                 return CGPoint(
-                    x: parent.size.width * 0.98,
+                    x: parent.size.width * 0.966,
                     y: parent.size.height * 0.59
                 )
             case .floor:

@@ -23,7 +23,7 @@ enum ItemType {
             case .uvShirt:
                 return CGSize(width: 200, height: 250)
             case .guitar:
-                return CGSize(width: 120, height: 150)
+                return CGSize(width: 250, height: 250)
             case .shoes:
                 return CGSize(width: 100, height: 100)
         }
