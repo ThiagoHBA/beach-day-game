@@ -12,8 +12,8 @@ struct SunscreenView: View {
     @State private var showAlert = false
     @State private var showLoading = false
     @State private var disableAvatarFaceInteraction = false
-    let faceRGBData: (UInt8, UInt8, UInt8) = (248, 188, 140)
-    let avatarFaceImage = UIImage(named: "avatar_face")!
+    let faceRGBData: (UInt8, UInt8, UInt8) = (237, 206, 190)
+    let avatarFaceImage = UIImage(named: "avatar_face1")!
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
     var qualityAlert: Alert {
@@ -38,6 +38,11 @@ struct SunscreenView: View {
 
     var avatarFace: some View {
         Image(uiImage: avatarFaceImage)
+            .resizable()
+            .frame(
+                width: UIScreen.main.bounds.width - 400,
+                height: UIScreen.main.bounds.height
+            )
             .gesture(
                 DragGesture()
                     .onChanged {
@@ -48,7 +53,7 @@ struct SunscreenView: View {
                                 DispatchQueue.main.async {
                                     showLoading = true
                                     DispatchQueue.main.asyncAfter(deadline: .now()) {
-                                        calculatePixels()
+                                        c.updateFilledfinishArea(with: calculatePixels())
                                         showLoading = false
                                         showAlert = true
                                     }
@@ -66,11 +71,26 @@ struct SunscreenView: View {
     
     var body: some View {
         ZStack {
+            Image("room")
+                .blur(radius: 5)
+            
             avatarFace.disabled(disableAvatarFaceInteraction)
-            GeometryReader { geo in
-                Text("Remaining ink: \(c.remainingInk)")
-                    .position(x: geo.size.width * 0.08, y: geo.size.height * 0.1)
-            }
+                .overlay {
+                    Text("Remaining Ink: \(c.remainingInk)")
+                        .bold()
+                        .font(Font.system(.title))
+                        .position(x: -45, y: 80)
+                }
+            
+            SpeakBalloon(
+                interaction: c.currentInteraction,
+                interactionOver: c.updateInteractionIndex,
+                showing: c.ballonIsShowing
+            ).frame(
+                width: UIScreen.main.bounds.width,
+                height: UIScreen.main.bounds.height
+            )
+        
         }
         .blur(radius: showLoading ? 5 : 0)
         .overlay {
@@ -88,28 +108,42 @@ struct SunscreenView: View {
             DispatchQueue.main.async {
                 showLoading = true
                 DispatchQueue.main.asyncAfter(deadline: .now()) {
-                    c.updateFilledStartArea(with: avatarFaceImage.pixelLocations(from: faceRGBData))
+                    c.updateFilledStartArea(with: calculatePixels())
                     showLoading = false
+                    c.showInteraction()
                 }
             }
         }
         .onReceive(timer) { _ in c.decreasePointsOpacity() }
     }
     
-    func calculatePixels()  {
+    func calculatePixels() -> Set<Location> {
         if #available(iOS 16.0, *) {
             let renderer = ImageRenderer(content: avatarFace)
             if let uiimage = renderer.uiImage {
-                c.updateFilledfinishArea(with: uiimage.pixelLocations(from: faceRGBData))
+                return uiimage.pixelLocations(from: faceRGBData)
             }
-        } else {
-            // Fallback on earlier versions
         }
+        return Set<Location>()
     }
 }
 
 struct SunscreenView_Previews: PreviewProvider {
     static var previews: some View {
         SunscreenView()
+            .previewDevice(PreviewDevice(rawValue: "iPad (10th generation)"))
+            .previewInterfaceOrientation(.landscapeLeft)
+        
+        SunscreenView()
+            .previewDevice(PreviewDevice(rawValue: "iPad Air (5th generation)"))
+            .previewInterfaceOrientation(.landscapeLeft)
+        
+        SunscreenView()
+            .previewDevice(PreviewDevice(rawValue: "iPad mini (6th generation)"))
+            .previewInterfaceOrientation(.landscapeLeft)
+        
+        SunscreenView()
+            .previewDevice(PreviewDevice(rawValue: "iPad Pro (12.9-inch) (6th generation)"))
+            .previewInterfaceOrientation(.landscapeLeft)
     }
 }

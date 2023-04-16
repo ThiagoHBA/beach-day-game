@@ -25,7 +25,7 @@ extension UIImage {
                 }
             }
         }
-
+        
         let set = Set(pixelLocations)
         
         return set

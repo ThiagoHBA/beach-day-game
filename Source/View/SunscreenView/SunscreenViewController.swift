@@ -13,8 +13,17 @@ class SunscreenViewController: ObservableObject {
     @Published private(set) var points: [Point] = []
     @Published private(set) var pixelFilledStartArea: Set<Location> = []
     @Published private(set) var pixelFilledFinishArea: Set<Location> = []
+    @Published var interactionTexts: [InteractionText]!
+    @Published var currentInteraction: InteractionText!
+    private var currentIndex = 0
+    @Published private(set) var ballonIsShowing = false
+    var didEndInteractions: (() -> Void)?
     
-    init() { self.remainingInk = startInk }
+    init() {
+        self.remainingInk = startInk
+        generateInitialTexts()
+        updateCurrentInteraction()
+    }
     
     func restartValues() {
         remainingInk = startInk
@@ -65,5 +74,56 @@ class SunscreenViewController: ObservableObject {
             appendNewPoint(Point(location: CGPoint(x: location.x, y: location.y)))
             calculateRemainingInk()
         }
+    }
+    
+    func showInteraction() { ballonIsShowing = true }
+    
+    func updateCurrentInteraction() {
+        if interactionTexts.indices.contains(currentIndex) {
+            currentInteraction = interactionTexts[currentIndex]
+            return
+        }
+        currentInteraction = InteractionText(
+            text: "",
+            screenPosition: .top,
+            type: .information,
+            minimumDuration: 0
+        )
+    }
+    
+    func updateInteractionIndex() {
+        if currentIndex < interactionTexts.count - 1 {
+            currentIndex += 1
+            updateCurrentInteraction()
+            showInteraction()
+            return
+        }
+        ballonIsShowing = false
+    }
+    
+}
+
+extension SunscreenViewController {
+    private func generateInitialTexts() {
+        interactionTexts = [
+            InteractionText(
+                text: "Now, last but not least, it's time for sunscreen!",
+                screenPosition: .center,
+                type: .speak,
+                minimumDuration: 5
+            ),
+            InteractionText(
+                text: "Alright! I'm running low on sunscreen, I need to be careful with the amount. My school teacher said the ideal amount for the face and neck was about a teaspoon of sunscreen.",
+                screenPosition:.center,
+                type: .speak,
+                minimumDuration: 5
+            ),
+            InteractionText(
+                text: "try to cover Ethan's face and neck using sunscreen with the limited amount of a teaspoon",
+                screenPosition: .top,
+                type: .information,
+                minimumDuration: 5
+            )
+        ]
     }
 }

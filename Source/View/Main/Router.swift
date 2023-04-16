@@ -8,7 +8,7 @@
 import Foundation
 
 class Router: ObservableObject {
-    @Published private (set) var currentInteraction: Interaction = .findItem
+    @Published private (set) var currentInteraction: Interaction = .play
     
     func nextInteraction() {
         if currentInteraction.rawValue < Interaction.allCases.count - 1 {

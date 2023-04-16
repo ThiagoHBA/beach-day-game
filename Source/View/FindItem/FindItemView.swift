@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FindItemView: View {
-//    @EnvironmentObject private var router: Router
+    @EnvironmentObject private var router: Router
     @ObservedObject private var controller = FindItemViewController()
     @State private var disableItem = false
     @State private var draggedItem: RoomItem?
@@ -112,7 +112,7 @@ struct FindItemView: View {
             disableItem = value
         })
         .onAppear {
-//            controller.didEndInteractions = router.nextInteraction
+            controller.didEndInteractions = router.nextInteraction
             controller.showInteraction()
         }
         .edgesIgnoringSafeArea(.all)

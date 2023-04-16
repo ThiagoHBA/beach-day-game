@@ -62,8 +62,8 @@ struct SpeakBalloon: View {
                             interactionDuration = 0
                         })
                         .position(
-                            x: geo.frame(in: .local).width * 0.92,
-                            y: geo.frame(in: .local).height * 0.92
+                            x: geo.frame(in: .global).width * 0.92,
+                            y: geo.frame(in: .global).height * 0.92
                         )
                     })
                     .opacity(showing ? 1 : 0)
