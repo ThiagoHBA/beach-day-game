@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import AVFoundation
 
 class FindItemViewController: ObservableObject {
     @Published var findableItems = RoomItem.generateFindableItems()
@@ -15,6 +16,7 @@ class FindItemViewController: ObservableObject {
     @Published var progress: CGFloat = 0.0
     @Published var highlightItems = false
     @Published private(set) var ballonIsShowing = false
+    private var player: AVAudioPlayer?
     private var currentIndex = 0
     var didEndInteractions: (() -> Void)?
     
@@ -75,6 +77,19 @@ class FindItemViewController: ObservableObject {
             type: .information,
             minimumDuration: 0
         )
+    }
+    
+    func playDropSong(of effect: SongEffect) {
+        guard let url = Bundle.main.url(forResource: effect.rawValue, withExtension: "aif") else { return }
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+            guard let player = player else { return }
+            player.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
 }
 

@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import AVFoundation
 
 struct AvatarView: View {
     @Binding var items: [RoomItem]
@@ -91,7 +92,6 @@ struct AvatarView: View {
         DispatchQueue.main.async { wrongSpotDropped?() }
         return false
     }
-    
     
     func verifyItemDrop(with url: URL, on position: AccessoryPosition) -> Bool {
         for i in 0..<items.count {

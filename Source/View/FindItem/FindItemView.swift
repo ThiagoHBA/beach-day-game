@@ -27,8 +27,14 @@ struct FindItemView: View {
                     items: $controller.findableItems,
                     protectionProgress: $controller.progress,
                     draggedItem: $draggedItem,
-                    itemHasDropped: controller.showItemInteraction,
-                    wrongSpotDropped: controller.wrongSpotItemDropped
+                    itemHasDropped: { item in
+                        controller.playDropSong(of: .successDrop)
+                        controller.showItemInteraction(item)
+                    },
+                    wrongSpotDropped: {
+                        controller.playDropSong(of: .wrongSpotDrop)
+                        controller.wrongSpotItemDropped()
+                    }
                 ).frame(
                     width: geo.size.width * 0.15,
                     height: geo.size.height * 0.7
@@ -61,10 +67,9 @@ struct FindItemView: View {
                         .offset(x: item.isDragging ? 10 : 0)
                         .animation(Animation.default.repeatCount(5).speed(6), value: item.isDragging)
                         .onLongPressGesture {
-                            let impact = UIImpactFeedbackGenerator(style: .heavy)
                             let index = controller.dummyItems.firstIndex { $0.id == item.id }
                             if let index {
-                                impact.impactOccurred()
+                                controller.playDropSong(of: .failedDrop)
                                 controller.showItemInteraction(controller.dummyItems[index])
                                 withAnimation {
                                     controller.dummyItems[index].isDragging.toggle()
