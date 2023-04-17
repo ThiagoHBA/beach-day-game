@@ -11,7 +11,8 @@ import SwiftUI
 struct FindableItem: View {
     var item: RoomItem
     var accessory: Bool = false
-    @Binding var highlited: Bool
+    var highlited: Bool = false
+    var hightlighAlways: Bool = false
     
     var body: some View {
         Image(accessory ? item.accessoryImage : item.image)
@@ -22,8 +23,10 @@ struct FindableItem: View {
                 maxHeight: item.type.getRelativeFrame.height
             )
             .scaleEffect(highlited ? 1.5 : 1)
+            .scaleEffect(hightlighAlways ? 1.1 : 1)
             .scaleEffect(accessory ? 1 : 0.4)
             .animation(Animation.default.repeatCount(5).speed(2), value: highlited)
+            .animation(Animation.default.repeatForever().speed(1), value: hightlighAlways)
     }
 }
 

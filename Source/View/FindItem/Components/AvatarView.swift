@@ -24,7 +24,10 @@ struct AvatarView: View {
             KidImage(removeHair: removeHair)
             GeometryReader { geo in
                 ForEach(0..<accessories.count, id: \.self) { i in
-                    FindableItem(item: accessories[i].item, accessory: true, highlited: .constant(false))
+                    FindableItem(
+                        item: accessories[i].item,
+                        accessory: true
+                    )
                         .opacity(accessories[i].item.visible ? 1 : 0.001)
                         .position(
                             accessories[i].item.accessoryPosition.getPositionCoordinate(

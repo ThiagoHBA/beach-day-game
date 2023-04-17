@@ -44,7 +44,10 @@ struct FindItemView: View {
                 )
                 
                 ForEach(controller.findableItems) { item in
-                    FindableItem(item: item, highlited: $controller.highlightItems)
+                    FindableItem(
+                        item: item, highlited: controller.highlightItems,
+                        hightlighAlways: controller.startUserInteraction
+                    )
                         .opacity(item.visible ? 1 : 0.001)
                         .onDrag {
                             draggedItem = item
@@ -62,7 +65,11 @@ struct FindItemView: View {
                 }
                 
                 ForEach(controller.dummyItems) { item in
-                    FindableItem(item: item, highlited: $controller.highlightItems)
+                    FindableItem(
+                        item: item,
+                        highlited: controller.highlightItems,
+                        hightlighAlways: controller.startUserInteraction
+                    )
                         .position(item.roomPosition.getPosition(on: geo.frame(in: .global)))
                         .offset(x: item.isDragging ? 10 : 0)
                         .animation(Animation.default.repeatCount(5).speed(6), value: item.isDragging)

@@ -15,6 +15,7 @@ class FindItemViewController: ObservableObject {
     @Published var currentInteraction: InteractionText!
     @Published var progress: CGFloat = 0.0
     @Published var highlightItems = false
+    @Published var startUserInteraction = false
     @Published private(set) var ballonIsShowing = false
     private var player: AVAudioPlayer?
     private var currentIndex = 0
@@ -136,7 +137,8 @@ extension FindItemViewController {
                 text: "Drag to Ethan's body the items who will help in his protection on the beach",
                 screenPosition: .top,
                 type: .information,
-                minimumDuration: 5
+                minimumDuration: 5,
+                action: { [weak self] in self?.startUserInteraction.toggle() }
             )
         ]
     }
