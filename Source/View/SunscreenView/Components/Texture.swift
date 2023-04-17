@@ -13,9 +13,9 @@ struct SunscreenTexture: View {
     var point: Point
     
     var body: some View {
-        Image("texture")
+        Image("sunscreen_texture")
             .resizable(resizingMode: .stretch)
-            .frame(width: 80, height: 80)
+            .frame(width: 120, height: 120)
             .scaledToFill()
             .opacity(point.opacity)
             .clipShape(Circle())

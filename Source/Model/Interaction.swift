@@ -12,4 +12,5 @@ enum Interaction: Int, CaseIterable {
     case carousel = 1
     case findItem = 2
     case sunscreen = 3
+    case final = 4
 }

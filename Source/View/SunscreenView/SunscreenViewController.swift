@@ -8,8 +8,8 @@
 import Foundation
 
 class SunscreenViewController: ObservableObject {
-    let startInk = 500
-    @Published private(set) var remainingInk: Int!
+    let startInk = 5.0
+    @Published private(set) var remainingInk: CGFloat!
     @Published private(set) var points: [Point] = []
     @Published private(set) var pixelFilledStartArea: Set<Location> = []
     @Published private(set) var pixelFilledFinishArea: Set<Location> = []
@@ -46,7 +46,7 @@ class SunscreenViewController: ObservableObject {
     }
     
     func calculateRemainingInk() {
-        remainingInk = points.count <= startInk ? startInk - points.count : 0
+        remainingInk = CGFloat(points.count)/100 <= startInk ? startInk - CGFloat(points.count)/100: 0
     }
     
     func decreasePointsOpacity() {
@@ -119,7 +119,7 @@ extension SunscreenViewController {
                 minimumDuration: 5
             ),
             InteractionText(
-                text: "try to cover Ethan's face and neck using sunscreen with the limited amount of a teaspoon",
+                text: "try to cover Ethan's face and neck using sunscreen with the limited amount of a teaspoon (5.0 ml)",
                 screenPosition: .top,
                 type: .information,
                 minimumDuration: 5

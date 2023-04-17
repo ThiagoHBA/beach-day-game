@@ -8,12 +8,13 @@
 import SwiftUI
 
 struct SunscreenView: View {
+    @EnvironmentObject var router: Router
     @ObservedObject private var c = SunscreenViewController()
     @State private var showAlert = false
     @State private var showLoading = false
     @State private var disableAvatarFaceInteraction = false
-    let faceRGBData: (UInt8, UInt8, UInt8) = (237, 206, 190)
-    let avatarFaceImage = UIImage(named: "avatar_face1")!
+    let faceRGBData: (UInt8, UInt8, UInt8) = (239, 212, 197)
+    let avatarFaceImage = UIImage(named: "avatar_zoomed")!
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
     var qualityAlert: Alert {
@@ -32,15 +33,16 @@ struct SunscreenView: View {
             message: Text("You rached \(filledArea)% of the face!"),
             dismissButton: .default(Text("Continue!")) {
                 disableAvatarFaceInteraction = true
+                router.nextInteraction()
             }
         )
     }
-
+    
     var avatarFace: some View {
         Image(uiImage: avatarFaceImage)
             .resizable()
             .frame(
-                width: UIScreen.main.bounds.width - 400,
+                width: UIScreen.main.bounds.width,
                 height: UIScreen.main.bounds.height
             )
             .gesture(
@@ -76,10 +78,12 @@ struct SunscreenView: View {
             
             avatarFace.disabled(disableAvatarFaceInteraction)
                 .overlay {
-                    Text("Remaining Ink: \(c.remainingInk)")
+                    
+                    Text("\(NSString(format: "%.2f", Double(c.remainingInk)))/ 5.00 ml")
                         .bold()
                         .font(Font.system(.title))
-                        .position(x: -45, y: 80)
+                    
+                        .position(x: 130, y: 130)
                 }
             
             SpeakBalloon(
@@ -90,7 +94,7 @@ struct SunscreenView: View {
                 width: UIScreen.main.bounds.width,
                 height: UIScreen.main.bounds.height
             )
-        
+            
         }
         .blur(radius: showLoading ? 5 : 0)
         .overlay {

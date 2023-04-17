@@ -16,11 +16,13 @@ struct MainView: View {
                 case .play:
                     PlayView()
                 case .carousel:
-                    CarouselView().transition(.opacity.animation(Animation.default.delay(0.5)))
+                CarouselView(order: .first).transition(.opacity.animation(Animation.default.delay(0.5)))
                 case .findItem:
                     FindItemView()
                 case .sunscreen:
                     SunscreenView()
+                case .final:
+                CarouselView(order: .final).transition(.opacity.animation(Animation.default.delay(0.5)))
             }
         }
         .preferredColorScheme(.light)

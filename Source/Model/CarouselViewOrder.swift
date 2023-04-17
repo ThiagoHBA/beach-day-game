@@ -13,40 +13,29 @@ struct CarouselTexts {
 
 enum CarouselViewOrder: Int, CaseIterable {
     case first = 0
-    //    case second = 1
-    //    case third = 2
+    case final = 1
     
     var textContent: CarouselTexts {
         switch self {
-            //        case .first:
-            //            return CarouselTexts(
-            //                texts: [
-            //                    "The sun is the source of light that enables life on our planet.",
-            //                    "It is responsible for enabling photosynthesis in plants, generating different types of energy, the existence of seasons, among other responsibilities."
-            //                ]
-            //            )
-            //        case .second:
-            //            return CarouselTexts(
-            //                texts: [
-            //                    "But what about humans?",
-            //                    "Well, for humans, it is present in our lives in various ways, directly or indirectly influencing us.",
-            //                    "It is responsible for regulating our sleep cycle, body temperature, and especially for activating vitamin D, crucial for strengthening our bones.",
-            //                    "Direct exposure of at least 5 to 10 minutes is necessary for activation to occur in our bodies. However, we must be very careful!",
-            //                    "Uncontrolled exposure to the sun can lead to various illnesses, including skin cancer."
-            //                ]
-            //
-            //            )
-            //
         case .first:
             return CarouselTexts(
                 texts: [
-                    "In countries like the United States and Brazil, skin cancer is the cancer with the highest incidence. It is estimated that one in five Americans develop skin cancer during their lifetime.",
-                    "According to the AAD (American Academy of Dermatology), sunburns in childhood and adolescence can favor the development of melanomas in adulthood.",
-                    "Most melanomas are attributed to uncontrolled exposure to UV rays caused by solar radiation.",
-                    "But how can we prevent it?",
-                    "Maybe we can learn from little Ethan. Today he is going to the beach with his family and he needs to get ready to avoid sunburn!"
+                    "In countries like the United States 🇺🇸 and Brazil 🇧🇷, skin cancer is the cancer with the **highest** incidence.",
+                    "It is estimated that one in five Americans develop skin cancer during their lifetime. sunburns in childhood and adolescence can favor the development of melanomas in adulthood.\n📃 Source: **AAD** (American Academy of Dermatology)",
+                    "Most melanomas are attributed to uncontrolled **exposure** to UV rays caused by solar radiation. ☀️",
+                    "But how can we prevent it? 🤔",
+                    "Maybe we can learn from little Ethan. Today he is going to the beach ⛱️ with his family and he needs to get ready to avoid sunburn!"
                 ]
-                
+            )
+        case .final:
+            return CarouselTexts(
+                texts: [
+                    "Ethan enjoyed the beach safely and without **any** sunburn!",
+                    "Skin cancer is something that should be treated very **seriously** and it affects many people **every day**.",
+                    "Use what you learn here in your daily routine to properly protect yourself. ",
+                    "You can monitor your location's **UV indexes** through your **Weather** app on iPhone 📱",
+                    "Stay safe and protect yourself, bye bye 👋🏼",
+                ]
             )
         }
     }

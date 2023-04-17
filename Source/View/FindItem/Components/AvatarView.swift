@@ -40,7 +40,7 @@ struct AvatarView: View {
                     //                            providers in
                     //                            if let first = providers.first {
                     //                                let _ = first.loadObject(ofClass: URL.self) {
-                    //                                    value, error in
+                          //                                    value, error in
                     //                                    guard let url = value else { return }
                     //                                    verifyItemDrop(with: url, on: accessory.position)
                     //                                }
