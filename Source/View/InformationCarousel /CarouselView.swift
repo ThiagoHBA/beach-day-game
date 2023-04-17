@@ -36,7 +36,6 @@ struct CarouselView: View {
                             return
                         }
                         router.nextInteraction()
-                        currentIndex = 0
                     },
                     previousTapped: currentIndex == 0 ? nil : {
                         if currentIndex > 0 {

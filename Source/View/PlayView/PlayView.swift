@@ -28,7 +28,7 @@ struct PlayView: View {
                         .padding(0)
                 }
                 .padding([.top, .bottom], 200)
-                FilledButton(title: "Start") {
+                FilledButton(title: "Restart") {
                     router.nextInteraction()
                     disableButton.toggle()
                 }
