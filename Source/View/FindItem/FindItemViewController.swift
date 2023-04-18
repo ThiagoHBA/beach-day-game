@@ -102,10 +102,10 @@ extension FindItemViewController {
                 text: "Today is finally beach day! I need to prepare as quickly as possible without forgetting anything!",
                 screenPosition: .center,
                 type: .speak,
-                minimumDuration: 6
+                minimumDuration: 8
             ),
             InteractionText(
-                text: "I have several items in my room",
+                text: "With items that i have in my room, I need to find out which ones will help me enjoy the beach safely",
                 screenPosition: .center,
                 type: .speak,
                 minimumDuration: 1,
@@ -117,22 +117,10 @@ extension FindItemViewController {
                 }
             ),
             InteractionText(
-                text: "I have several items in my room",
+                text: "With items that i have in my room, I need to find out which ones will help me enjoy the beach safely",
                 screenPosition: .center,
                 type: .speak,
-                minimumDuration: 2
-            ),
-            InteractionText(
-                text: "I need to find out which ones will help me enjoy the beach safely",
-                screenPosition: .center,
-                type: .speak,
-                minimumDuration: 6
-            ),
-            InteractionText(
-                text: "Alright, let's get started, what do I need to bring?",
-                screenPosition: .center,
-                type: .speak,
-                minimumDuration: 6
+                minimumDuration: 8
             ),
             InteractionText(
                 text: "Drag to Ethan's body the items who will help in his protection on the beach",
