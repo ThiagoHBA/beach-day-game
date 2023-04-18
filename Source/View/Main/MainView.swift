@@ -16,17 +16,21 @@ struct MainView: View {
         ZStack {
             switch router.currentInteraction {
                 case .play:
-                PlayView().transition(.opacity.animation(Animation.default.delay(2))).onAppear {
-                    playSoundtrack()
-                }
+                PlayView()
+                    .transition(.opacity.animation(Animation.default.delay(2)))
                 case .carousel:
-                CarouselView(order: .first).transition(.opacity.animation(Animation.default.delay(0.5))).onAppear { mainPlayer?.stop() }
+                    CarouselView(order:.first)
+                    .transition(.opacity.animation(Animation.default.delay(2)))
+                    .onAppear { mainPlayer?.stop() }
                 case .findItem:
-                    FindItemView().onAppear { playSoundtrack() }
+                    FindItemView()
+                    .onAppear { playSoundtrack() }
                 case .sunscreen:
                     SunscreenView()
                 case .final:
-                    CarouselView(order: .final).transition(.opacity.animation(Animation.default.delay(0.5)))
+                    CarouselView(order: .final)
+                    .transition(.opacity.animation(Animation.default.delay(0.5)))
+//                    .onDisappear { mainPlayer?.stop() }
             }
         }
         .preferredColorScheme(.light)
