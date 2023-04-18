@@ -17,6 +17,7 @@ struct RoomItem: Identifiable, Hashable {
     let accessoryImage: String
     var roomPosition: RoomPosition
     let accessoryPosition: AccessoryPosition
+    var absolutePosition: Location?
 }
 
 extension RoomItem {

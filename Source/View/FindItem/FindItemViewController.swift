@@ -92,6 +92,7 @@ class FindItemViewController: ObservableObject {
             print(error.localizedDescription)
         }
     }
+    
 }
 
 extension FindItemViewController {
