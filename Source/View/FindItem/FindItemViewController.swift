@@ -32,7 +32,7 @@ class FindItemViewController: ObservableObject {
                 text: item.type.description,
                 screenPosition: .bottom,
                 type: .speak,
-                minimumDuration: 5
+                minimumDuration: 10
             )
         ]
         currentIndex = 0
@@ -102,7 +102,7 @@ extension FindItemViewController {
                 text: "Today is finally beach day! I need to prepare as quickly as possible without forgetting anything!",
                 screenPosition: .center,
                 type: .speak,
-                minimumDuration: 4
+                minimumDuration: 6
             ),
             InteractionText(
                 text: "I have several items in my room",
@@ -120,25 +120,25 @@ extension FindItemViewController {
                 text: "I have several items in my room",
                 screenPosition: .center,
                 type: .speak,
-                minimumDuration: 1
+                minimumDuration: 2
             ),
             InteractionText(
                 text: "I need to find out which ones will help me enjoy the beach safely",
                 screenPosition: .center,
                 type: .speak,
-                minimumDuration: 5
+                minimumDuration: 6
             ),
             InteractionText(
                 text: "Alright, let's get started, what do I need to bring?",
                 screenPosition: .center,
                 type: .speak,
-                minimumDuration: 4
+                minimumDuration: 6
             ),
             InteractionText(
                 text: "Drag to Ethan's body the items who will help in his protection on the beach",
                 screenPosition: .top,
                 type: .information,
-                minimumDuration: 5,
+                minimumDuration: 6,
                 action: { [weak self] in self?.startUserInteraction.toggle() }
             )
         ]

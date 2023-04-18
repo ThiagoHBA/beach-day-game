@@ -80,12 +80,13 @@ struct AvatarView: View {
                         y: currentItem.absolutePosition!.y
                     )
                 ) {
-                    performItemDrop(of: currentItem, on: accessory.position)
+                    if performItemDrop(of: currentItem, on: accessory.position) { return }
                 }
             }
         }
         
-        func performItemDrop(of item: RoomItem, on position: AccessoryPosition) {
+        func performItemDrop(of item: RoomItem, on position: AccessoryPosition) -> Bool {
+            print("item: \(item.type)", "pos: \(position)")
             if item.accessoryPosition == position {
                 let itemIndex = items.firstIndex { $0.id == item.id }
                 let accessoryIndex = accessories.firstIndex { $0.item.id == item.id }
@@ -98,10 +99,12 @@ struct AvatarView: View {
                         itemHasDropped?(items[itemIndex])
                         if position == .head { removeHair = true }
                     }
+                    return true
                 }
-                return
+                return false
             }
             DispatchQueue.main.async { wrongSpotDropped?() }
+            return false
         }
     }
 }

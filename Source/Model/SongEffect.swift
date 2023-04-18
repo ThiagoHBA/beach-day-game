@@ -11,4 +11,5 @@ enum SongEffect: String {
     case successDrop = "SuccessDrop"
     case failedDrop = "WrongItemSong"
     case wrongSpotDrop = "WrongSpotSong"
+    case soundtrack = "SoundTrack"
 }
