@@ -7,25 +7,6 @@
 
 import SwiftUI
 
-class DragDelegate: NSObject, UIDragInteractionDelegate {
-    var draggedItem: RoomItem
-    
-    init(draggedItem: RoomItem) {
-        self.draggedItem = draggedItem
-        super.init()
-    }
-    
-    func dragInteraction(_ interaction: UIDragInteraction, itemsForBeginning session: UIDragSession) -> [UIDragItem] {
-        return [
-            UIDragItem(
-                itemProvider: .init(contentsOf: URL(string: draggedItem.id.uuidString))!
-            )
-        ]
-    }
-    
-    
-}
-
 struct FindItemView: View {
     @EnvironmentObject private var router: Router
     @ObservedObject private var controller = FindItemViewController()
@@ -84,42 +65,9 @@ struct FindItemView: View {
                             .onEnded({ _ in
                                 tryToDropItem?(item)
                                 item.absolutePosition = nil
-//                                UIDragInteraction(delegate: DragDelegate(draggedItem: item))
                             })
                     )
                     .disabled(disableItem || !item.visible)
-//                        .gesture(
-//                            DragGesture()
-//                                .onChanged({ value in
-//                                    controller.findableItems[i].absolutePosition = Location(value.translation)
-//                                })
-//                            LongPressGesture(minimumDuration: 0.1)
-//                                .sequenced(
-//                                    before: DragGesture()
-//                                    .onChanged({ value in
-//                                        controller.findableItems[i].absolutePosition = Location(value.location)
-//                                    })
-//                                    .onEnded({ _ in
-//                                        controller.findableItems[i].absolutePosition = nil
-//                                    })
-//                                )
-//                        )
-//                        .position(
-//                            controller.findableItems[i].absolutePosition?.toCGPoint() ?? .zero
-//                            controller.findableItems[i].roomPosition.getPosition(on: geo.frame(in: .global))
-//                        )
-//                        .offset(x: controller.findableItems[i].absolutePosition?.toCGPoint().x ?? 0.0, y: controller.findableItems[i].absolutePosition?.toCGPoint().y ?? 0.0
-//                        )
-                    
-//                        .onDrag {
-//                            draggedItem = item
-//                            return .init(contentsOf: URL(string: item.id.uuidString))!
-//                        } preview: {
-//                            DragPreviewImage(
-//                                image: item.image,
-//                                onDropArea: item.onDropArea
-//                            )
-//                        }
                 }
                 
                 ForEach(controller.dummyItems) { item in

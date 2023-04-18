@@ -7,7 +7,6 @@
 
 import Foundation
 import SwiftUI
-import SpriteKit
 
 struct FindableItem: View {
     var item: RoomItem
@@ -29,28 +28,6 @@ struct FindableItem: View {
                 .scaleEffect(accessory ? 1 : 0.4)
                 .animation(Animation.default.repeatCount(5).speed(2), value: highlited)
                 .animation(Animation.default.repeatForever().speed(1), value: hightlighAlways)
-            SpriteView(
-                scene: FindableItemScene(),
-                options: [.allowsTransparency]
-            )
-            .frame(width: item.type.getRelativeFrame.width, height: item.type.getRelativeFrame.height)
         }
     }
 }
-
-class FindableItemScene: SKScene {
-    override func didMove(to view: SKView) {
-        backgroundColor = .clear
-        let rect = SKShapeNode(rect: view.bounds)
-        rect.physicsBody = SKPhysicsBody(rectangleOf: view.bounds.size)
-        rect.physicsBody?.contactTestBitMask = 0b001
-        physicsWorld.contactDelegate = self
-    }
-}
-
-extension FindableItemScene: SKPhysicsContactDelegate {
-    func didBegin(_ contact: SKPhysicsContact) {
-        print("Contact!!")
-    }
-}
-
