@@ -40,7 +40,7 @@ extension RoomItem {
             RoomItem(
                 type: .uvShirt,
                 image: "uvshirt_undrawed",
-                accessoryImage: "uvshirt_undrawed",
+                accessoryImage: "uvshirt_drawed",
                 roomPosition: .wardrobe,
                 accessoryPosition: .body
             )
