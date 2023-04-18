@@ -16,6 +16,8 @@ struct AvatarView: View {
     @State var accessories: [Accessory] = []
     @State var visibleItems = 0
     @State var removeHair = false
+    
+    @Binding var itemHasBeenReleased: ((RoomItem) -> Void)?
     var itemHasDropped: ((RoomItem) -> Void)?
     var wrongSpotDropped: (() -> Void)?
     
@@ -24,21 +26,18 @@ struct AvatarView: View {
             KidImage(removeHair: removeHair)
             GeometryReader { geo in
                 ForEach(0..<accessories.count, id: \.self) { i in
-                    FindableItem(
-                        item: accessories[i].item,
-                        accessory: true
-                    )
-                        .opacity(accessories[i].item.visible ? 1 : 0.001)
-                        .position(
-                            accessories[i].item.accessoryPosition.getPositionCoordinate(
-                                geo.frame(in: .global)
-                            )
+                    FindableItem(item: accessories[i].item, accessory: true)
+                    .opacity(accessories[i].item.visible ? 1 : 0.001)
+                    .position(
+                        accessories[i].item.accessoryPosition.getPositionCoordinate(
+                            geo.frame(in: .global)
                         )
-                        .onDrop(of: [.url], delegate: DropViewDelegate(
-                            screen: self,
-                            draggedItem: $draggedItem,
-                            destinationItem: $accessories[i].item
-                        ))
+                    )
+                    .onDrop(of: [.url], delegate: DropViewDelegate(
+                        screen: self,
+                        draggedItem: $draggedItem,
+                        destinationItem: $accessories[i].item
+                    ))
                     //                        .onDrop(of: [.url], isTargeted: .constant(false)) {
                     //                            providers in
                     //                            if let first = providers.first {
@@ -61,12 +60,21 @@ struct AvatarView: View {
                 accessory.item.visible = false
                 accessories.append(accessory)
             }
+            
+            itemHasBeenReleased = verifyItemDrop
         }
     }
     
     func calculateProgress() {
         withAnimation {
             protectionProgress = CGFloat(visibleItems) / CGFloat(items.count)
+        }
+    }
+    
+    func verifyItemDrop(_ item: RoomItem) {
+        let itemIndex = items.firstIndex { $0.id == item.id }
+        for accessory in accessories {
+            
         }
     }
     
@@ -96,33 +104,33 @@ struct AvatarView: View {
         return false
     }
     
-    func verifyItemDrop(with url: URL, on position: AccessoryPosition) -> Bool {
-        for i in 0..<items.count {
-            if items[i].id.uuidString == "\(url)" {
-                if items[i].accessoryPosition == position {
-                    guard let index = accessories.firstIndex(
-                        where:{
-                            $0.item.id == items[i].id
-                        }
-                    ) else { return false }
-                    
-                    DispatchQueue.main.async {
-                        items[i].visible.toggle()
-                        accessories[index].item.visible.toggle()
-                        visibleItems += 1
-                        calculateProgress()
-                        itemHasDropped?(items[i])
-                        if position == .head { removeHair = true }
-                    }
-                    return true
-                }
-                DispatchQueue.main.async {
-                    wrongSpotDropped?()
-                }
-            }
-        }
-        return false
-    }
+//    func verifyItemDrop(with url: URL, on position: AccessoryPosition) -> Bool {
+//        for i in 0..<items.count {
+//            if items[i].id.uuidString == "\(url)" {
+//                if items[i].accessoryPosition == position {
+//                    guard let index = accessories.firstIndex(
+//                        where:{
+//                            $0.item.id == items[i].id
+//                        }
+//                    ) else { return false }
+//
+//                    DispatchQueue.main.async {
+//                        items[i].visible.toggle()
+//                        accessories[index].item.visible.toggle()
+//                        visibleItems += 1
+//                        calculateProgress()
+//                        itemHasDropped?(items[i])
+//                        if position == .head { removeHair = true }
+//                    }
+//                    return true
+//                }
+//                DispatchQueue.main.async {
+//                    wrongSpotDropped?()
+//                }
+//            }
+//        }
+//        return false
+//    }
 }
 
 struct DropViewDelegate: DropDelegate {
