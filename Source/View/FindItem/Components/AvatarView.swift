@@ -81,6 +81,7 @@ struct AvatarView: View {
                     )
                 ) {
                     performItemDrop(of: currentItem, on: accessory.position)
+                    return
                 }
             }
         }
@@ -98,6 +99,7 @@ struct AvatarView: View {
                         itemHasDropped?(items[itemIndex])
                         if position == .head { removeHair = true }
                     }
+                    return
                 }
                 return
             }

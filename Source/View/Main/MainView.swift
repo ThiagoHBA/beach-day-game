@@ -6,19 +6,23 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct MainView: View {
     @ObservedObject private var router = Router()
+    @State private var mainPlayer: AVAudioPlayer?
     
     var body: some View {
         ZStack {
             switch router.currentInteraction {
                 case .play:
-                PlayView().transition(.opacity.animation(Animation.default.delay(2)))
+                PlayView().transition(.opacity.animation(Animation.default.delay(2))).onAppear {
+                    playSoundtrack()
+                }
                 case .carousel:
-                    CarouselView(order: .first).transition(.opacity.animation(Animation.default.delay(0.5)))
+                CarouselView(order: .first).transition(.opacity.animation(Animation.default.delay(0.5))).onAppear { mainPlayer?.stop() }
                 case .findItem:
-                    FindItemView()
+                    FindItemView().onAppear { playSoundtrack() }
                 case .sunscreen:
                     SunscreenView()
                 case .final:
@@ -28,6 +32,22 @@ struct MainView: View {
         .preferredColorScheme(.light)
         .animation(.spring(), value: router.currentInteraction)
         .environmentObject(router)
+    }
+    
+    func playSoundtrack() {
+        guard let url = Bundle.main.url(
+            forResource: SongEffect.soundtrack.rawValue, withExtension: "aif"
+        ) else { return }
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            mainPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+            mainPlayer?.numberOfLoops = -1
+            guard let player = mainPlayer else { return }
+            player.play()
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
     
 }
