@@ -47,13 +47,16 @@ struct SpeakBalloon: View {
             )
             .overlay {
                 Path { path in
-                    path.move(to: CGPoint(x: 200, y: 120))
-                    path.addLine(to: CGPoint(x: 50, y: 240))
-                    path.addLine(to: CGPoint(x: 120, y: 240))
-                    path.addLine(to: CGPoint(x: 200, y: 120))
+                    path.move(to: CGPoint(x: 140, y: 60))
+                    path.addLine(to: CGPoint(x: 50, y: 120))
+                    path.addLine(to: CGPoint(x: 90 , y: 120))
+                    path.addLine(to: CGPoint(x: 140, y: 60))
                 }
                 .fill(.white.opacity(0.9))
-                .offset(x: 220, y: windowSize.height - 550)
+                .offset(
+                    x: 220,
+                    y: windowSize.height - 431
+                )
             }        .animation(.spring(), value: 1.0)
                 .overlay(content: {
                     FilledButton(title: "Next", onTap: {

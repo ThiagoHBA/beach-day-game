@@ -11,6 +11,7 @@ import AVFoundation
 struct MainView: View {
     @ObservedObject private var router = Router()
     @State private var mainPlayer: AVAudioPlayer?
+    @State private var fadeTimer: Timer?
     
     var body: some View {
         ZStack {
@@ -49,6 +50,7 @@ struct MainView: View {
             mainPlayer?.numberOfLoops = -1
             guard let player = mainPlayer else { return }
             player.play()
+            fadeTimer = player.fadeVolume(from: 0, to: 1, duration: 5)
         } catch let error {
             print(error.localizedDescription)
         }
