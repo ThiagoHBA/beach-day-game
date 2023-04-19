@@ -10,33 +10,46 @@ import AVFoundation
 
 struct MainView: View {
     @ObservedObject private var router = Router()
+    @Environment(\.mainWindowSize) var windowSize
     @State private var mainPlayer: AVAudioPlayer?
     @State private var fadeTimer: Timer?
+    
     
     var body: some View {
         ZStack {
             switch router.currentInteraction {
-                case .play:
+            case .play:
                 PlayView()
                     .transition(.opacity.animation(Animation.default.delay(2)))
-                case .carousel:
-                    CarouselView(order:.first)
+            case .carousel:
+                CarouselView(order:.first)
                     .transition(.opacity.animation(Animation.default.delay(2)))
                     .onAppear { mainPlayer?.stop() }
-                case .findItem:
-                    FindItemView()
+            case .findItem:
+                FindItemView()
                     .onAppear { playSoundtrack() }
-                case .sunscreen:
-                    SunscreenView()
-                case .final:
-                    CarouselView(order: .final)
+            case .sunscreen:
+                SunscreenView()
+            case .final:
+                CarouselView(order: .final)
                     .transition(.opacity.animation(Animation.default.delay(0.5)))
-//                    .onDisappear { mainPlayer?.stop() }
             }
         }
         .preferredColorScheme(.light)
         .animation(.spring(), value: router.currentInteraction)
         .environmentObject(router)
+        .overlay {
+            ZStack {
+                Image("main-background")
+                    .resizable()
+                    .scaledToFill()
+                    .blur(radius: 5)
+                    .position(x: windowSize.width * 0.5, y: windowSize.height * 0.5)
+                CarouselText(text: "Please, use landscape orientation to run playground")
+            }
+            .frame(width: windowSize.width, height: windowSize.height)
+            .opacity(windowSize.width < windowSize.height ? 1 : 0)
+        }
     }
     
     func playSoundtrack() {

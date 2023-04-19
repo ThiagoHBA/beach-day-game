@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct PlayView: View {
+    @Environment(\.mainWindowSize) var windowSize
     @EnvironmentObject var router: Router
     @State var disableButton = false
     
@@ -34,7 +35,9 @@ struct PlayView: View {
                 }
                 .disabled(disableButton)
             }
-        }.ignoresSafeArea(.all)
+        }
+        .frame(width: windowSize.width, height: windowSize.height)
+        .ignoresSafeArea(.all)
     }
 }
 
