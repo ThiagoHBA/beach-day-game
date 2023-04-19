@@ -83,7 +83,7 @@ class FindItemViewController: ObservableObject {
     }
     
     func playDropSong(of effect: SongEffect) {
-        guard let url = Bundle.main.url(forResource: effect.rawValue, withExtension: "aif") else { return }
+        guard let url = Bundle.main.url(forResource: effect.rawValue, withExtension: "mp3") else { return }
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)

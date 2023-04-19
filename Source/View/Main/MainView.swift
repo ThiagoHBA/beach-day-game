@@ -40,7 +40,7 @@ struct MainView: View {
     
     func playSoundtrack() {
         guard let url = Bundle.main.url(
-            forResource: SongEffect.soundtrack.rawValue, withExtension: "aif"
+            forResource: SongEffect.soundtrack.rawValue, withExtension: "mp3"
         ) else { return }
         do {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
