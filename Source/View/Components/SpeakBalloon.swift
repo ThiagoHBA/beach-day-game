@@ -43,7 +43,7 @@ struct SpeakBalloon: View {
             .cornerRadius(25)
             .position(
                 x: windowSize.width * 0.5,
-                y: windowSize.height - (322/2)
+                y: windowSize.height - (300/2)
             )
             .overlay {
                 Path { path in

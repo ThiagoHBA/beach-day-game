@@ -16,37 +16,35 @@ struct FindItemView: View {
     @State private var tryToDropItem: ((RoomItem) -> Void)?
     
     var body: some View {
-        GeometryReader { geo in
-            ZStack {
-                Image("room")
-                    .resizable()
-                    .frame(
-                        width: windowSize.width,
-                        height: windowSize.height
-                    )
-                
-                AvatarView(
-                    items: $controller.findableItems,
-                    protectionProgress: $controller.progress,
-                    draggedItem: $draggedItem,
-                    itemHasBeenReleased: $tryToDropItem,
-                    itemHasDropped: { item in
-                        controller.playDropSong(of: .successDrop)
-                        controller.showItemInteraction(item)
-                    },
-                    wrongSpotDropped: {
-                        controller.playDropSong(of: .wrongSpotDrop)
-                        controller.wrongSpotItemDropped()
-                    }
-                ).frame(
-                    width: geo.size.width * 0.15,
-                    height: geo.size.height * 0.7
-                ).position(
-                    x: geo.size.width * 0.5,
-                    y: geo.size.height * 0.55
-                )
-                
-                ForEach($controller.findableItems) { $item in
+        
+        ZStack {
+            Image("room")
+                .resizable()
+                .frame(width: windowSize.width, height: windowSize.height)
+            
+            AvatarView(
+                items: $controller.findableItems,
+                protectionProgress: $controller.progress,
+                draggedItem: $draggedItem,
+                itemHasBeenReleased: $tryToDropItem,
+                itemHasDropped: { item in
+                    controller.playDropSong(of: .successDrop)
+                    controller.showItemInteraction(item)
+                },
+                wrongSpotDropped: {
+                    controller.playDropSong(of: .wrongSpotDrop)
+                    controller.wrongSpotItemDropped()
+                }
+            ).frame(
+                width: windowSize.width * 0.15,
+                height: windowSize.height * 0.7
+            ).position(
+                x: windowSize.width * 0.5,
+                y: windowSize.height * 0.55
+            )
+            
+            ForEach($controller.findableItems) { $item in
+                GeometryReader { geo in
                     FindableItem(
                         item: item,
                         highlited: controller.highlightItems,
@@ -70,8 +68,10 @@ struct FindItemView: View {
                     )
                     .disabled(disableItem || !item.visible)
                 }
-                
-                ForEach(controller.dummyItems) { item in
+            }
+            
+            ForEach(controller.dummyItems) { item in
+                GeometryReader { geo in
                     FindableItem(
                         item: item,
                         highlited: controller.highlightItems,
@@ -96,32 +96,35 @@ struct FindItemView: View {
                         .disabled(disableItem)
                 }
                 
-                VStack {
-                    HStack {
-                        Spacer()
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Protection Progress")
-                                .font(Font.system(.caption))
-                                .foregroundColor(.white)
-                                .bold()
-                                .padding([.leading], 8)
-                            ProgressBar(progress: $controller.progress)
-                                .frame(
-                                    width: geo.size.width * 0.25,
-                                    height: 32
-                                )
-                        }
-                    }
-                    Spacer()
-                }.padding(54)
-                
-                SpeakBalloon(
-                    interaction: controller.currentInteraction,
-                    interactionOver: controller.updateInteractionIndex,
-                    showing: controller.ballonIsShowing
-                )
             }
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Protection Progress")
+                            .font(Font.system(.caption))
+                            .foregroundColor(.white)
+                            .bold()
+                            .padding([.leading], 8)
+                        ProgressBar(progress: $controller.progress)
+                            .frame(
+                                width: windowSize.width * 0.25,
+                                height: 32
+                            )
+                    }
+                }
+                Spacer()
+            }.padding(54)
+            
+            SpeakBalloon(
+                interaction: controller.currentInteraction,
+                interactionOver: controller.updateInteractionIndex,
+                showing: controller.ballonIsShowing
+            )
         }
+        
+        .edgesIgnoringSafeArea(.all)
         .onChange(of: controller.ballonIsShowing, perform: { value in
             disableItem = value
         })
@@ -129,7 +132,6 @@ struct FindItemView: View {
             controller.didEndInteractions = router.nextInteraction
             controller.showInteraction()
         }
-        .edgesIgnoringSafeArea(.all)
     }
 }
 
