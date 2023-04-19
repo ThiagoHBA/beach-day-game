@@ -12,17 +12,31 @@ enum InteractionType {
     case information
 }
 
+enum InteractionEffect {
+    case wrongItemDropped
+    case itemDropped
+    case wrongSpotDropped
+}
+
 struct InteractionText {
     let text : String
     let screenPosition: ScreenPosition?
     let type: InteractionType
+    let effect: InteractionEffect?
     let minimumDuration: Int?
     let action: (() -> Void)?
     
-    init(text: String, screenPosition: ScreenPosition?, type: InteractionType, minimumDuration: Int?, action: (() -> Void)? = nil) {
+    init(text: String,
+         screenPosition: ScreenPosition?,
+         type: InteractionType,
+         effect: InteractionEffect? = nil,
+         minimumDuration: Int?,
+         action: (() -> Void)? = nil
+    ) {
         self.text = text
         self.screenPosition = screenPosition
         self.type = type
+        self.effect = effect
         self.minimumDuration = minimumDuration
         self.action = action
     }

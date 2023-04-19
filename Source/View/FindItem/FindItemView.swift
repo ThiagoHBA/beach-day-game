@@ -9,62 +9,69 @@ import SwiftUI
 
 struct FindItemView: View {
     @EnvironmentObject private var router: Router
+    @Environment(\.mainWindowSize) var windowSize
     @ObservedObject private var controller = FindItemViewController()
     @State private var disableItem = false
     @State private var draggedItem: RoomItem?
+    @State private var tryToDropItem: ((RoomItem) -> Void)?
     
     var body: some View {
-        GeometryReader { geo in
-            ZStack {
-                Image("room")
-                    .resizable()
-                    .frame(
-                        width: UIScreen.main.bounds.width,
-                        height: UIScreen.main.bounds.height
-                    )
-                
-                AvatarView(
-                    items: $controller.findableItems,
-                    protectionProgress: $controller.progress,
-                    draggedItem: $draggedItem,
-                    itemHasDropped: { item in
-                        controller.playDropSong(of: .successDrop)
-                        controller.showItemInteraction(item)
-                    },
-                    wrongSpotDropped: {
-                        controller.playDropSong(of: .wrongSpotDrop)
-                        controller.wrongSpotItemDropped()
-                    }
-                ).frame(
-                    width: geo.size.width * 0.15,
-                    height: geo.size.height * 0.7
-                ).position(
-                    x: geo.size.width * 0.5,
-                    y: geo.size.height * 0.55
-                )
-                
-                ForEach(controller.findableItems) { item in
+        
+        ZStack {
+            Image("room")
+                .resizable()
+                .frame(width: windowSize.width, height: windowSize.height)
+            
+            AvatarView(
+                items: $controller.findableItems,
+                protectionProgress: $controller.progress,
+                draggedItem: $draggedItem,
+                itemHasBeenReleased: $tryToDropItem,
+                itemHasDropped: { item in
+                    controller.playDropSong(of: .successDrop)
+                    controller.showItemInteraction(item)
+                },
+                wrongSpotDropped: {
+                    controller.playDropSong(of: .wrongSpotDrop)
+                    controller.wrongSpotItemDropped()
+                }
+            ).frame(
+                width: windowSize.width * 0.15,
+                height: windowSize.height * 0.7
+            ).position(
+                x: windowSize.width * 0.5,
+                y: windowSize.height * 0.55
+            )
+            
+            ForEach($controller.findableItems) { $item in
+                GeometryReader { geo in
                     FindableItem(
-                        item: item, highlited: controller.highlightItems,
+                        item: item,
+                        highlited: controller.highlightItems,
                         hightlighAlways: controller.startUserInteraction
                     )
-                        .opacity(item.visible ? 1 : 0.001)
-                        .onDrag {
-                            draggedItem = item
-                            return .init(contentsOf: URL(string: item.id.uuidString))!
-                        } preview: {
-                            DragPreviewImage(
-                                image: item.image,
-                                onDropArea: item.onDropArea
-                            )
-                        }
-                        .position(
-                            item.roomPosition.getPosition(on: geo.frame(in: .global))
-                        )
+                    .opacity(item.visible ? 1 : 0.001)
+                    .position(
+                        item.absolutePosition?.toCGPoint() ??
+                        item.roomPosition.getPosition(on: geo.frame(in: .global))
+                    )
+                    .gesture(
+                        DragGesture(minimumDistance: 0)
+                            .onChanged({ value in
+                                item.absolutePosition = Location(value.location)
+                                draggedItem = item
+                            })
+                            .onEnded({ _ in
+                                tryToDropItem?(item)
+                                item.absolutePosition = nil
+                            })
+                    )
                     .disabled(disableItem || !item.visible)
                 }
-                
-                ForEach(controller.dummyItems) { item in
+            }
+            
+            ForEach(controller.dummyItems) { item in
+                GeometryReader { geo in
                     FindableItem(
                         item: item,
                         highlited: controller.highlightItems,
@@ -73,7 +80,7 @@ struct FindItemView: View {
                         .position(item.roomPosition.getPosition(on: geo.frame(in: .global)))
                         .offset(x: item.isDragging ? 10 : 0)
                         .animation(Animation.default.repeatCount(5).speed(6), value: item.isDragging)
-                        .onLongPressGesture {
+                        .onLongPressGesture(minimumDuration: 0) {
                             let index = controller.dummyItems.firstIndex { $0.id == item.id }
                             if let index {
                                 controller.playDropSong(of: .failedDrop)
@@ -89,32 +96,35 @@ struct FindItemView: View {
                         .disabled(disableItem)
                 }
                 
-                VStack {
-                    HStack {
-                        Spacer()
-                        VStack(alignment: .leading, spacing: 0) {
-                            Text("Protection Progress")
-                                .font(Font.system(.caption))
-                                .foregroundColor(.white)
-                                .bold()
-                                .padding([.leading], 8)
-                            ProgressBar(progress: $controller.progress)
-                                .frame(
-                                    width: geo.size.width * 0.25,
-                                    height: 32
-                                )
-                        }
-                    }
-                    Spacer()
-                }.padding(54)
-                
-                SpeakBalloon(
-                    interaction: controller.currentInteraction,
-                    interactionOver: controller.updateInteractionIndex,
-                    showing: controller.ballonIsShowing
-                )
             }
+            
+            VStack {
+                HStack {
+                    Spacer()
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("Protection Progress")
+                            .font(Font.system(.caption))
+                            .foregroundColor(.white)
+                            .bold()
+                            .padding([.leading], 8)
+                        ProgressBar(progress: $controller.progress)
+                            .frame(
+                                width: windowSize.width * 0.25,
+                                height: 32
+                            )
+                    }
+                }
+                Spacer()
+            }.padding(54)
+            
+            SpeakBalloon(
+                interaction: controller.currentInteraction,
+                interactionOver: controller.updateInteractionIndex,
+                showing: controller.ballonIsShowing
+            )
         }
+        
+        .edgesIgnoringSafeArea(.all)
         .onChange(of: controller.ballonIsShowing, perform: { value in
             disableItem = value
         })
@@ -122,7 +132,6 @@ struct FindItemView: View {
             controller.didEndInteractions = router.nextInteraction
             controller.showInteraction()
         }
-        .edgesIgnoringSafeArea(.all)
     }
 }
 

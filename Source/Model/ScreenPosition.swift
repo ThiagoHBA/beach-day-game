@@ -13,14 +13,14 @@ enum ScreenPosition {
     case center
     case bottom
     
-    var screenOffSet : CGFloat {
+    func screenOffSet(size: CGSize) -> CGFloat {
         switch self {
         case.center:
-            return UIScreen.main.bounds.height * 0
+            return size.height * 0
         case .top:
-            return -UIScreen.main.bounds.height * 0.3
+            return -size.height * 0.3
         case .bottom:
-            return UIScreen.main.bounds.height * 0.3
+            return size.height * 0.3
         }
     }
 }

@@ -15,4 +15,8 @@ struct Location: Hashable {
         self.x = Int(cgPoint.x)
         self.y = Int(cgPoint.y)
     }
+    
+    func toCGPoint() -> CGPoint {
+        return CGPoint(x: x, y: y)
+    }
 }

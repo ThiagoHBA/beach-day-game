@@ -4,6 +4,7 @@ struct InformationBalloon: View {
     var interaction : InteractionText
     var interactionOver: (() -> Void)?
     var showing: Bool
+    @Environment(\.mainWindowSize) var windowSize
     @State private var interactionDuration = 0
     private let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -27,7 +28,7 @@ struct InformationBalloon: View {
         .background(.white.opacity(0.9))
         .cornerRadius(20)
         .shadow(color: .black, radius: 5, y: 5)
-        .offset(y: interaction.screenPosition!.screenOffSet)
+        .offset(y: interaction.screenPosition!.screenOffSet(size: windowSize))
         .animation(.spring(), value: 1.0)
         .opacity(showing ? 1 : 0)
         .onReceive(timer) { timer in

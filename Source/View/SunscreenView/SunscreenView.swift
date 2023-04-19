@@ -13,6 +13,7 @@ struct SunscreenView: View {
     @State private var showAlert = false
     @State private var showLoading = false
     @State private var disableAvatarFaceInteraction = false
+    @Environment(\.mainWindowSize) var windowSize
     let faceRGBData: (UInt8, UInt8, UInt8) = (239, 212, 197)
     let avatarFaceImage = UIImage(named: "avatar_zoomed")!
     let timer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
@@ -41,10 +42,7 @@ struct SunscreenView: View {
     var avatarFace: some View {
         Image(uiImage: avatarFaceImage)
             .resizable()
-            .frame(
-                width: UIScreen.main.bounds.width,
-                height: UIScreen.main.bounds.height
-            )
+            .frame(width: windowSize.width, height: windowSize.height)
             .gesture(
                 DragGesture()
                     .onChanged {
@@ -74,35 +72,35 @@ struct SunscreenView: View {
     var body: some View {
         ZStack {
             Image("room")
+                .resizable()
+                .frame(width: windowSize.width, height: windowSize.height)
+                .scaleEffect(2)
                 .blur(radius: 5)
-            
+
             avatarFace.disabled(disableAvatarFaceInteraction)
                 .overlay {
-                    
                     Text("\(NSString(format: "%.2f", Double(c.remainingInk)))/ 5.00 ml")
                         .bold()
                         .font(Font.system(.title))
-                    
+
                         .position(x: 130, y: 130)
                 }
-            
-            SpeakBalloon(
-                interaction: c.currentInteraction,
-                interactionOver: c.updateInteractionIndex,
-                showing: c.ballonIsShowing
-            ).frame(
-                width: UIScreen.main.bounds.width,
-                height: UIScreen.main.bounds.height
-            )
+                SpeakBalloon(
+                    interaction: c.currentInteraction,
+                    interactionOver: c.updateInteractionIndex,
+                    showing: c.ballonIsShowing
+                )
             
         }
+        
         .blur(radius: showLoading ? 5 : 0)
         .overlay {
             if showLoading {
                 ProgressView()
                     .frame(width: 150, height: 150)
                     .foregroundColor(.white)
-                    .position(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY)
+                    .position(x: windowSize.width * 0.5, y: windowSize.height * 0.5)
+//                    .position(x: windowSize.midX, y: windowSize.midY)
             }
         }
         .alert(isPresented: $showAlert) {
@@ -118,6 +116,7 @@ struct SunscreenView: View {
                 }
             }
         }
+        .position(x: windowSize.width * 0.5, y: windowSize.height * 0.5)
         .onReceive(timer) { _ in c.decreasePointsOpacity() }
     }
     

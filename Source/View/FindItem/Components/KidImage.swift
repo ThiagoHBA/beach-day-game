@@ -9,6 +9,7 @@ import SwiftUI
 
 struct KidImage: View {
     var removeHair: Bool = false
+    var effect: InteractionEffect?
     
     var body: some View {
         ZStack {
