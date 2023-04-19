@@ -27,7 +27,7 @@ extension RoomItem {
             RoomItem(
                 type: .hat,
                 image: "hat_undrawed",
-                accessoryImage: "hat_drawed",
+                accessoryImage: "",
                 roomPosition: .keyboard,
                 accessoryPosition: .head,
                 effect: .itemDropped

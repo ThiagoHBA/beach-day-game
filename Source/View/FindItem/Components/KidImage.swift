@@ -8,22 +8,18 @@
 import SwiftUI
 
 struct KidImage: View {
-    var removeHair: Bool = false
+    var usingHat = false
     var effect: InteractionEffect?
+    private var kidImage: String {
+        if usingHat {
+            return "kid_idle_hat"
+        }
+        return "kid_idle"
+    }
     
     var body: some View {
         ZStack {
-            Image(effect?.associetedImage ?? "kid_idle01")
-            if !removeHair {
-                GeometryReader { geo in
-                    Image("kid_hair")
-                        .position(
-                            x: geo.frame(in: .global).width * 0.47,
-                            y: geo.frame(in: .global).height * 0.12
-                        )
-                }
-            }
-            
+            Image(effect?.associetedImage ?? kidImage)
         }
     }
 }
