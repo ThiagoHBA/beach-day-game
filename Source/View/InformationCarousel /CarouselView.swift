@@ -47,6 +47,7 @@ struct CarouselView: View {
             }
             .frame(maxWidth: 900)
             .animation(.spring(), value: order)
+            .position(x: windowSize.width * 0.5, y: windowSize.height * 0.5)
         }
     }
 }
