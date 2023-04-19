@@ -6,7 +6,15 @@ struct MyApp: App {
         WindowGroup {
             GeometryReader { proxy in
                 MainView()
-                    .environment(\.mainWindowSize, proxy.size)
+                    .environment(
+                        \.mainWindowSize,
+                         CGSize(
+                            width: proxy.size.width,
+                            height: proxy.size.height
+                            + proxy.safeAreaInsets.top
+                            + proxy.safeAreaInsets.bottom
+                         )
+                    )
             }
             
         }

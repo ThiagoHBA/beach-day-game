@@ -90,9 +90,7 @@ struct SunscreenView: View {
                     interactionOver: c.updateInteractionIndex,
                     showing: c.ballonIsShowing
                 )
-            
         }
-        
         .blur(radius: showLoading ? 5 : 0)
         .overlay {
             if showLoading {
@@ -100,7 +98,6 @@ struct SunscreenView: View {
                     .frame(width: 150, height: 150)
                     .foregroundColor(.white)
                     .position(x: windowSize.width * 0.5, y: windowSize.height * 0.5)
-//                    .position(x: windowSize.midX, y: windowSize.midY)
             }
         }
         .alert(isPresented: $showAlert) {

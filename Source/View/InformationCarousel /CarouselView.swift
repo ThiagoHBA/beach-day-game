@@ -19,6 +19,8 @@ struct CarouselView: View {
                 .resizable()
                 .scaledToFill()
                 .blur(radius: 5)
+                .position(x: windowSize.width * 0.5, y: windowSize.height * 0.5)
+            
             VStack {
                 CarouselText(
                     text: order.textContent.texts[currentIndex]
@@ -47,7 +49,6 @@ struct CarouselView: View {
             }
             .frame(maxWidth: 900)
             .animation(.spring(), value: order)
-            .position(x: windowSize.width * 0.5, y: windowSize.height * 0.5)
         }
     }
 }
