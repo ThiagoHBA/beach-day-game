@@ -13,7 +13,7 @@ struct KidImage: View {
     
     var body: some View {
         ZStack {
-            Image("kid_idle01")
+            Image(effect?.associetedImage ?? "kid_idle01")
             if !removeHair {
                 GeometryReader { geo in
                     Image("kid_hair")
