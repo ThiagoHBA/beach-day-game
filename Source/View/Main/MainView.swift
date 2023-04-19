@@ -61,6 +61,7 @@ struct MainView: View {
             try AVAudioSession.sharedInstance().setActive(true)
             mainPlayer = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
             mainPlayer?.numberOfLoops = -1
+            mainPlayer?.volume = 0.5
             guard let player = mainPlayer else { return }
             player.play()
             fadeTimer = player.fadeVolume(from: 0, to: 1, duration: 5)
