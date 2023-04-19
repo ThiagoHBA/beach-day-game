@@ -11,6 +11,7 @@ struct CarouselView: View {
     @EnvironmentObject var router: Router
     @State private var currentIndex: Int = 0
     @State var order: CarouselViewOrder
+    @Environment(\.mainWindowSize) var windowSize
     
     var body: some View {
         ZStack {
@@ -22,7 +23,7 @@ struct CarouselView: View {
                 CarouselText(
                     text: order.textContent.texts[currentIndex]
                 )
-                .frame(width: UIScreen.main.bounds.width * 0.8, height: 300)
+                .frame(width: windowSize.width * 0.8, height: 300)
                 .animation(.easeIn, value: currentIndex)
                 .background(
                     .thinMaterial,

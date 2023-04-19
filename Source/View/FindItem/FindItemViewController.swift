@@ -32,6 +32,7 @@ class FindItemViewController: ObservableObject {
                 text: item.type.description,
                 screenPosition: .bottom,
                 type: .speak,
+                effect: .itemDropped,
                 minimumDuration: 10
             )
         ]
@@ -46,6 +47,7 @@ class FindItemViewController: ObservableObject {
                 text: "Try again in different part of body!!",
                 screenPosition: .top,
                 type: .information,
+                effect: .wrongSpotDropped,
                 minimumDuration: 2
             )
         ]

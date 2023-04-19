@@ -9,6 +9,7 @@ import SwiftUI
 
 struct FindItemView: View {
     @EnvironmentObject private var router: Router
+    @Environment(\.mainWindowSize) var windowSize
     @ObservedObject private var controller = FindItemViewController()
     @State private var disableItem = false
     @State private var draggedItem: RoomItem?
@@ -20,8 +21,8 @@ struct FindItemView: View {
                 Image("room")
                     .resizable()
                     .frame(
-                        width: UIScreen.main.bounds.width,
-                        height: UIScreen.main.bounds.height
+                        width: windowSize.width,
+                        height: windowSize.height
                     )
                 
                 AvatarView(
