@@ -32,8 +32,8 @@ class FindItemViewController: ObservableObject {
                 text: item.type.description,
                 screenPosition: .bottom,
                 type: .speak,
-                effect: .itemDropped,
-                minimumDuration: 10
+                effect: item.effect,
+                minimumDuration: 30
             )
         ]
         currentIndex = 0
@@ -47,8 +47,7 @@ class FindItemViewController: ObservableObject {
                 text: "Try again in different part of body!!",
                 screenPosition: .top,
                 type: .information,
-                effect: .wrongSpotDropped,
-                minimumDuration: 2
+                minimumDuration: 5
             )
         ]
         currentIndex = 0
@@ -88,6 +87,7 @@ class FindItemViewController: ObservableObject {
             try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
             try AVAudioSession.sharedInstance().setActive(true)
             player = try AVAudioPlayer(contentsOf: url, fileTypeHint: AVFileType.mp3.rawValue)
+            
             guard let player = player else { return }
             player.play()
         } catch let error {
@@ -104,13 +104,13 @@ extension FindItemViewController {
                 text: "Today is finally beach day! I need to prepare as quickly as possible without forgetting anything!",
                 screenPosition: .center,
                 type: .speak,
-                minimumDuration: 8
+                minimumDuration: 25
             ),
             InteractionText(
                 text: "With items that i have in my room, I need to find out which ones will help me enjoy the beach safely",
                 screenPosition: .center,
                 type: .speak,
-                minimumDuration: 1,
+                minimumDuration: 5,
                 action: { [weak self] in
                     self?.highlightItems.toggle()
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
@@ -122,13 +122,13 @@ extension FindItemViewController {
                 text: "With items that i have in my room, I need to find out which ones will help me enjoy the beach safely",
                 screenPosition: .center,
                 type: .speak,
-                minimumDuration: 8
+                minimumDuration: 20
             ),
             InteractionText(
                 text: "Drag to Ethan's body the items who will help in his protection on the beach",
                 screenPosition: .top,
                 type: .information,
-                minimumDuration: 6,
+                minimumDuration: 20,
                 action: { [weak self] in self?.startUserInteraction.toggle() }
             )
         ]

@@ -16,6 +16,17 @@ enum InteractionEffect {
     case wrongItemDropped
     case itemDropped
     case wrongSpotDropped
+    
+    var associetedImage: String {
+        switch self {
+            case .wrongItemDropped:
+                return "kid_thinking"
+            case .itemDropped:
+                return "kid_idle"
+            case .wrongSpotDropped:
+                return "kid_thinking"
+        }
+    }
 }
 
 struct InteractionText {

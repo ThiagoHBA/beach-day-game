@@ -15,6 +15,10 @@ struct CarouselText: View {
             .multilineTextAlignment(.center)
             .font(.largeTitle)
             .padding(42)
+            .background(
+                .thinMaterial,
+                in: RoundedRectangle(cornerRadius: 8, style: .continuous)
+            )
     }
 }
 

@@ -10,7 +10,7 @@ struct InformationBalloon: View {
     
     var body: some View {
         VStack(alignment: .trailing) {
-            Text(interaction.text)
+            Text(.init(interaction.text))
                 .font(Font.system(.title3))
                 .multilineTextAlignment(.center)
                 .padding([.top], 32)

@@ -110,19 +110,19 @@ extension SunscreenViewController {
                 text: "Now, last but not least, it's time for sunscreen!",
                 screenPosition: .center,
                 type: .speak,
-                minimumDuration: 5
+                minimumDuration: 20
             ),
             InteractionText(
-                text: "Alright! I'm running low on sunscreen, I need to be careful with the amount. My school teacher said the ideal amount for the face and neck was about a teaspoon of sunscreen.",
+                text: "Alright! I'm running low on sunscreen, i know that the ideal amount for the face and neck was about a teaspoon of sunscreen.",
                 screenPosition:.center,
                 type: .speak,
-                minimumDuration: 5
+                minimumDuration: 30
             ),
             InteractionText(
-                text: "try to cover Ethan's face and neck using sunscreen with the limited amount of a teaspoon (5.0 ml)",
+                text: "with limited amount of a **teaspoon (5.0 ml)** try to cover Ethan's face and neck using sunscreen",
                 screenPosition: .top,
                 type: .information,
-                minimumDuration: 5
+                minimumDuration: 20
             )
         ]
     }

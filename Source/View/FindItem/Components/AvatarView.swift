@@ -15,14 +15,14 @@ struct AvatarView: View {
     @Binding var draggedItem: RoomItem?
     @State var accessories: [Accessory] = []
     @State var visibleItems = 0
-    @State var removeHair = false
+    @State var usingHat = false
     @Binding var itemHasBeenReleased: ((RoomItem) -> Void)?
     var itemHasDropped: ((RoomItem) -> Void)?
     var wrongSpotDropped: (() -> Void)?
     
     var body: some View {
         ZStack {
-            KidImage(removeHair: removeHair)
+            KidImage(usingHat: usingHat)
             GeometryReader { geo in
                 ForEach(0..<accessories.count, id: \.self) { i in
                     FindableItem(item: accessories[i].item, accessory: true)
@@ -97,7 +97,7 @@ struct AvatarView: View {
                         visibleItems += 1
                         calculateProgress()
                         itemHasDropped?(items[itemIndex])
-                        if position == .head { removeHair = true }
+                        if position == .head { usingHat = true }
                     }
                     return true
                 }

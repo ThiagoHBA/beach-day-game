@@ -21,7 +21,8 @@ struct FindItemView: View {
             Image("room")
                 .resizable()
                 .frame(width: windowSize.width, height: windowSize.height)
-            
+                .position(x: windowSize.width * 0.5, y: windowSize.height * 0.5)
+
             AvatarView(
                 items: $controller.findableItems,
                 protectionProgress: $controller.progress,
@@ -123,7 +124,6 @@ struct FindItemView: View {
                 showing: controller.ballonIsShowing
             )
         }
-        
         .edgesIgnoringSafeArea(.all)
         .onChange(of: controller.ballonIsShowing, perform: { value in
             disableItem = value

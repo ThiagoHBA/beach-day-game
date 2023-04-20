@@ -18,6 +18,7 @@ struct RoomItem: Identifiable, Hashable {
     var roomPosition: RoomPosition
     let accessoryPosition: AccessoryPosition
     var absolutePosition: Location?
+    var effect: InteractionEffect
 }
 
 extension RoomItem {
@@ -26,23 +27,26 @@ extension RoomItem {
             RoomItem(
                 type: .hat,
                 image: "hat_undrawed",
-                accessoryImage: "hat_drawed",
+                accessoryImage: "",
                 roomPosition: .keyboard,
-                accessoryPosition: .head
+                accessoryPosition: .head,
+                effect: .itemDropped
             ),
             RoomItem(
                 type: .sunglass,
                 image: "sunglass_undrawed",
                 accessoryImage: "sunglass_drawed",
                 roomPosition: .bedsideTable,
-                accessoryPosition: .eyes
+                accessoryPosition: .eyes,
+                effect: .itemDropped
             ),
             RoomItem(
                 type: .uvShirt,
                 image: "uvshirt_undrawed",
                 accessoryImage: "uvshirt_drawed",
                 roomPosition: .wardrobe,
-                accessoryPosition: .body
+                accessoryPosition: .body,
+                effect: .itemDropped
             )
         ]
     }
@@ -54,14 +58,16 @@ extension RoomItem {
                 image: "guitar",
                 accessoryImage: "guitar",
                 roomPosition: .wall,
-                accessoryPosition: .none
+                accessoryPosition: .none,
+                effect: .wrongItemDropped
             ),
             RoomItem(
                 type: .shoes,
                 image: "shoes_undrawed",
                 accessoryImage: "shoes_undrawed",
                 roomPosition: .floor,
-                accessoryPosition: .none
+                accessoryPosition: .none,
+                effect: .wrongItemDropped
             )
         ]
     }

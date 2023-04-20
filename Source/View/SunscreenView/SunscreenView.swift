@@ -76,23 +76,26 @@ struct SunscreenView: View {
                 .frame(width: windowSize.width, height: windowSize.height)
                 .scaleEffect(2)
                 .blur(radius: 5)
-
+            
             avatarFace.disabled(disableAvatarFaceInteraction)
                 .overlay {
-                    Text("\(NSString(format: "%.2f", Double(c.remainingInk)))/ 5.00 ml")
-                        .bold()
-                        .font(Font.system(.title))
-
-                        .position(x: 130, y: 130)
+                    VStack {
+                        Text("Remaining")
+                            .bold()
+                            .font(.title3)
+                        Text("\(NSString(format: "%.2f", Double(c.remainingInk)))/ 5.00 ml")
+                            .bold()
+                            .font(Font.system(.title))
+                    }
+                    .position(x: 150, y: 150)
+                    .shadow(radius: 2)
                 }
-                SpeakBalloon(
-                    interaction: c.currentInteraction,
-                    interactionOver: c.updateInteractionIndex,
-                    showing: c.ballonIsShowing
-                )
-            
+            SpeakBalloon(
+                interaction: c.currentInteraction,
+                interactionOver: c.updateInteractionIndex,
+                showing: c.ballonIsShowing
+            )
         }
-        
         .blur(radius: showLoading ? 5 : 0)
         .overlay {
             if showLoading {
@@ -100,7 +103,6 @@ struct SunscreenView: View {
                     .frame(width: 150, height: 150)
                     .foregroundColor(.white)
                     .position(x: windowSize.width * 0.5, y: windowSize.height * 0.5)
-//                    .position(x: windowSize.midX, y: windowSize.midY)
             }
         }
         .alert(isPresented: $showAlert) {

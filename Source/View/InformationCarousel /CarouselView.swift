@@ -19,16 +19,12 @@ struct CarouselView: View {
                 .resizable()
                 .scaledToFill()
                 .blur(radius: 5)
+                .position(x: windowSize.width * 0.5, y: windowSize.height * 0.5)
+            
             VStack {
-                CarouselText(
-                    text: order.textContent.texts[currentIndex]
-                )
+                CarouselText(text: order.textContent.texts[currentIndex])
                 .frame(width: windowSize.width * 0.8, height: 300)
                 .animation(.easeIn, value: currentIndex)
-                .background(
-                    .thinMaterial,
-                    in: RoundedRectangle(cornerRadius: 8, style: .continuous)
-                )
                 .padding([.bottom], 20)
                 CarouselButtons(
                     nextTapped: {

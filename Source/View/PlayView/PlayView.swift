@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct PlayView: View {
+    @Environment(\.mainWindowSize) var windowSize
     @EnvironmentObject var router: Router
     @State var disableButton = false
     
     var body: some View {
-        ZStack {
+        ZStack(alignment: .center) {
             Image("main-background")
                 .resizable()
                 .scaledToFill()
                 .blur(radius: 2)
-            VStack {
+            VStack(alignment: .center) {
                 VStack {
                     Text("BeachDay")
                         .font(Font.system(size: 160))
@@ -27,7 +28,7 @@ struct PlayView: View {
                         .bold()
                         .padding(0)
                 }
-                .padding([.top, .bottom], 200)
+                .padding([.bottom], 100)
                 FilledButton(title: "Restart") {
                     router.nextInteraction()
                     disableButton.toggle()
@@ -35,6 +36,8 @@ struct PlayView: View {
                 .disabled(disableButton)
             }
         }
+        .frame(width: windowSize.width, height: windowSize.height)
+        .ignoresSafeArea(.all)
     }
 }
 
